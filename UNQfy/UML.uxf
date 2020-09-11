@@ -1,18 +1,17 @@
-<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text></help_text><element><id>UMLClass</id><coordinates><x>230</x><y>440</y><w>210</w><h>180</h></coordinates><panel_attributes>Track
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text></help_text><element><id>UMLClass</id><coordinates><x>130</x><y>337</y><w>210</w><h>180</h></coordinates><panel_attributes>Track
 ----------------------------------------------------------------------
 id: Int
 duración: &lt;int&gt;
 nombre: &gt;string&gt;
-compositor: &lt;Artista&gt;
 generos: [String]
 ------------------------------------------------------------------------
 getGenero(): [String]
 getDuracion(): Int
-getArtista(): &lt;Artista&gt;
-getAlbum(): &lt;Album&gt;
 
 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>230</x><y>130</y><w>220</w><h>180</h></coordinates><panel_attributes>Artista
+
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>130</x><y>27</y><w>220</w><h>180</h></coordinates><panel_attributes>Artista
 ----------------------------------------------------------
 id: Int
 nombre:&lt;string&gt;
@@ -22,7 +21,7 @@ generos: [String]
 getCanciones(): [&lt;Track&gt;]
 getNombre(): String
 getAlbumes(): [&lt;Album&gt;]
-getGeneros: [String]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>680</x><y>430</y><w>230</w><h>190</h></coordinates><panel_attributes>Playlist
+getGeneros: [String]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>580</x><y>327</y><w>230</w><h>190</h></coordinates><panel_attributes>Playlist
 ------------------------------------------------------
 canciones: [&lt;Track&gt;]
 género: [&lt;String&gt;]
@@ -31,15 +30,15 @@ getGenero():[String]
 addTrack(Track): void
 removeTrack(Track): void
 getDuraciónTotal(): Int
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>680</x><y>130</y><w>220</w><h>180</h></coordinates><panel_attributes>Álbum
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>580</x><y>27</y><w>220</w><h>180</h></coordinates><panel_attributes>Álbum
 ---------------------------------------------------------------
 id: Int
-artista: &lt;Artista&gt;
 generos:[&lt;String&gt;]
 canciones:[&lt;Track&gt;]
 ----------------------------------------------------------------
 getCanciones():[&lt;Track&gt;]
-getArtista(): &lt;Artista&gt;
 getGenero(): [String]
 getDuracion(): Int
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>430</x><y>510</y><w>270</w><h>30</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;250;10</additional_attributes></element><element><id>Relation</id><coordinates><x>390</x><y>300</y><w>410</w><h>160</h></coordinates><panel_attributes>lt=&lt;-&gt;</panel_attributes><additional_attributes>10;140;10;70;390;70;390;10</additional_attributes></element><element><id>Relation</id><coordinates><x>440</x><y>200</y><w>260</w><h>30</h></coordinates><panel_attributes>lt=&lt;-&gt;</panel_attributes><additional_attributes>10;10;240;10</additional_attributes></element><element><id>Relation</id><coordinates><x>260</x><y>300</y><w>30</w><h>160</h></coordinates><panel_attributes>lt=&lt;-&gt;</panel_attributes><additional_attributes>10;10;10;140</additional_attributes></element></diagram>
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>330</x><y>407</y><w>270</w><h>30</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;250;10</additional_attributes></element><element><id>Relation</id><coordinates><x>330</x><y>200</y><w>390</w><h>220</h></coordinates><panel_attributes>lt=&lt;-
+m1=0..n</panel_attributes><additional_attributes>10;190;200;190;200;70;370;70;370;10</additional_attributes></element><element><id>Relation</id><coordinates><x>350</x><y>90</y><w>250</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+m1=0..n</panel_attributes><additional_attributes>230;10;10;10</additional_attributes></element></diagram>
