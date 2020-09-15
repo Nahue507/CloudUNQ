@@ -1,7 +1,7 @@
 class Artista {
     constructor(id,nombre, albumes, generos){
         this.id = id
-        this.nombre =nombre
+        this.name =nombre
         this.albumes = albumes
         this.generos = generos
         this.country = undefined;

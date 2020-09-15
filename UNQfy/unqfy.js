@@ -19,7 +19,7 @@ class UNQfy {
   // retorna: el nuevo artista creado
   addArtist(artistData) {
     var artistaNuevo = new Artista();
-    artistaNuevo.nombre = artistData.name;
+    artistaNuevo.name = artistData.name;
     artistaNuevo.country = artistData.country;
     this.artistas.push(artistaNuevo);
     return artistaNuevo;
