@@ -4,6 +4,7 @@ class Artista {
         this.nombre =nombre
         this.albumes = albumes
         this.generos = generos
+        this.country = undefined;
                
     }
      getCanciones(){
