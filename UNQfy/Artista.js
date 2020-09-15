@@ -1,10 +1,10 @@
 class Artista {
-    constructor(id,nombre, albumes, generos){
-        this.id = id
-        this.name =nombre
-        this.albumes = albumes
-        this.generos = generos
-        this.country = undefined;
+    constructor(name,country){
+        this.id = undefined
+        this.name =name
+        this.albumes = undefined
+        this.generos = undefined
+        this.country = country;
                
     }
      getCanciones(){
@@ -26,3 +26,4 @@ class Artista {
       
     
 }
+exports = Artista

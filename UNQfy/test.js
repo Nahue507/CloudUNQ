@@ -4,6 +4,7 @@ const assert = require('chai').assert;
 const libunqfy = require('./unqfy');
 
 
+
 function createAndAddArtist(unqfy, artistName, country) {
   const artist = unqfy.addArtist({ name: artistName, country });
   return artist;
