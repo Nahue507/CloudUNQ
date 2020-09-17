@@ -5,3 +5,4 @@ class Usuario{
                
     }
 }
+exports = Usuario

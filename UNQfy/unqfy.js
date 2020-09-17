@@ -1,7 +1,10 @@
 
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
-const Artista = require("./Artista")
+const Artista = require("./Artista"); //Para crear artistas nuevos
+const Album = require("./Album"); //Para crear y modificar albumes nuevos 
+const Playlist = require("./Album");//Para crear y modificar playlist nuevas  
+const Track = require("./Track");//Para crear nuevos tracks 
 
 
 class UNQfy {
@@ -19,7 +22,7 @@ class UNQfy {
   //   artistData.country (string)
   // retorna: el nuevo artista creado
   addArtist(artistData) {
-   const artista = new Artista(artistData.name, artistData.country);
+   const artista = new Artista.Artista(artistData.name, artistData.country);
    this.artistas.push(artista);
    return artista;
   /* Crea un artista y lo agrega a unqfy.
@@ -35,6 +38,7 @@ class UNQfy {
   //   albumData.year (number)
   // retorna: el nuevo album creado
   addAlbum(artistId, albumData) {
+    
   /* Crea un album y lo agrega al artista con id artistId.
     El objeto album creado debe tener (al menos):
      - una propiedad name (string)
@@ -58,7 +62,7 @@ class UNQfy {
   }
 
   getArtistById(id) {
-
+    
   }
 
   getAlbumById(id) {
@@ -116,5 +120,6 @@ class UNQfy {
 // COMPLETAR POR EL ALUMNO: exportar todas las clases que necesiten ser utilizadas desde un modulo cliente
 module.exports = {
   UNQfy: UNQfy,
+  
 };
 

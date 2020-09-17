@@ -20,3 +20,4 @@ class Playlist {
     removeTrack(cancion){this.tracks.pop(cancion)}
 
 }
+exports = Playlist

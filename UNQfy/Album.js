@@ -16,3 +16,4 @@ class Album{
         return this.id;
     }
 }
+exports = Album

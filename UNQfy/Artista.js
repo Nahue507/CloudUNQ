@@ -2,7 +2,7 @@ class Artista {
     constructor(name,country){
         this.id = undefined
         this.name =name
-        this.albumes = undefined
+        this.albumes = []
         this.generos = undefined
         this.country = country;
                
@@ -26,4 +26,7 @@ class Artista {
       
     
 }
-exports = Artista
+module.exports = {
+    Artista:Artista,
+    
+  };
