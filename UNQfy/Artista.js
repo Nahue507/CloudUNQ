@@ -15,7 +15,9 @@ class Artista {
         return tracks;
         
     }
-
+    nuevoAlbum(album){
+        this.albumes.push(album);
+    }
     //Getters
     getId(){return this.id}
     getNombre(){return this.nombre}

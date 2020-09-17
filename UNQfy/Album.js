@@ -1,8 +1,10 @@
 class Album{
-    constructor(id,canciones,generos){
-        this.id = id
-        this.canciones = canciones
-        this.generos = generos
+    constructor(name,year){
+        this.id = undefined;
+        this.canciones = [];
+        this.generos = [];
+        this.name = name;
+        this.year = year;
                
     }
     //Getters
@@ -16,4 +18,7 @@ class Album{
         return this.id;
     }
 }
-exports = Album
+module.exports = {
+    Album:Album,
+    
+  };

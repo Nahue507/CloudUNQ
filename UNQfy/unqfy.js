@@ -5,7 +5,7 @@ const Artista = require("./Artista"); //Para crear artistas nuevos
 const Album = require("./Album"); //Para crear y modificar albumes nuevos 
 const Playlist = require("./Album");//Para crear y modificar playlist nuevas  
 const Track = require("./Track");//Para crear nuevos tracks 
-
+const IdManager = require("./IdManager");//Manager de ids
 
 class UNQfy {
   constructor(){
@@ -13,6 +13,7 @@ class UNQfy {
     this.albumnes = [];
     this.tracks = [];
     this.playsList = [];
+    this.idManager = new IdManager.IdManager();
     
   }
   
@@ -23,6 +24,7 @@ class UNQfy {
   // retorna: el nuevo artista creado
   addArtist(artistData) {
    const artista = new Artista.Artista(artistData.name, artistData.country);
+   artista.id = this.idManager.getIdArtista();
    this.artistas.push(artista);
    return artista;
   /* Crea un artista y lo agrega a unqfy.
@@ -38,7 +40,10 @@ class UNQfy {
   //   albumData.year (number)
   // retorna: el nuevo album creado
   addAlbum(artistId, albumData) {
-    
+    const artista = this.getArtistById(artistId);
+    const albumNuevo = new Album.Album(albumData.name,albumData.year);
+    this.albumnes.push(albumNuevo);
+    return albumNuevo;
   /* Crea un album y lo agrega al artista con id artistId.
     El objeto album creado debe tener (al menos):
      - una propiedad name (string)
@@ -62,7 +67,7 @@ class UNQfy {
   }
 
   getArtistById(id) {
-    
+    const artist = this.artistas.filter(artista => artista.id == id);
   }
 
   getAlbumById(id) {
