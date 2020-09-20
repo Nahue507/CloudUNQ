@@ -6,7 +6,7 @@ const libunqfy = require('./unqfy');
 
 
 function createAndAddArtist(unqfy, artistName, country) {
-  const artist = unqfy.addArtist({ name: artistName, country });
+  const artist = unqfy.addArtist({ name: artistName, country: country });
   return artist;
 }
 
@@ -65,7 +65,7 @@ describe('Add, remove and filter data', () => {
       artists: [artist1],
       albums: [album1],
       tracks: [track],
-      playlists: [playlist],
+      playlists: [playlist]
     });
   });
 

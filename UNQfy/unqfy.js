@@ -113,15 +113,29 @@ class UNQfy {
   // retorna: los tracks interpredatos por el artista con nombre artistName
   getTracksMatchingArtist(artistName) {
 
-    //filtra los artistas por nombre == artistName
-    //armar una nueva lista con todos los temas de cada artista filtrado
-    //Devolver la lista
-
-    let artistasConMismoNombre = [];
-    this.artistas.filter( function(artista) {if (artista.name == artistName) {artistasConMismoNombre = artistasConMismoNombre.concat(artista)} });    
+        
+    const artistasConMismoNombre = this.artistas.filter( function(artista) {return artista.name == artistName});    
     let todasLasCanciones = [];
     artistasConMismoNombre.forEach ( artista => todasLasCanciones = todasLasCanciones.concat(artista.getAllTracks()) );
+    
     return todasLasCanciones
+  
+  }
+
+  //name: nombre (string)
+  // retirna todos los objetos con nombre name
+  searchByName(name){
+
+    
+    const artists = this.artistas.filter( function(artista) { return artista.name == name} );
+    const albums = this.albumes.filter( function(album) { return album.name == name} );
+    const tracks = this.tracks.filter( function(track) { return track.name == name} );
+    const playlists = this.playsLists.filter( function(playlist) { return playlist.name == name } );
+
+    results = {artists: artists, albums: albums, tracks: tracks, playlists: playlists};
+
+    return results
+    
   }
 
 
@@ -137,8 +151,11 @@ class UNQfy {
       * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
   */
     const newPlaylist = new Playlist(name, genresToInclude, maxDuration);
-    newPlaylist.id = this.IdManager.getIdPlaylist();
+    newPlaylist.id = this.idManager.getIdPlaylist();
+    
     this.playsLists.push(newPlaylist);
+
+    return newPlaylist
 
   }
 
