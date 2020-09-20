@@ -113,8 +113,15 @@ class UNQfy {
   // retorna: los tracks interpredatos por el artista con nombre artistName
   getTracksMatchingArtist(artistName) {
 
-    this.artistas.forEach((artist) => {if (artist.name == artistName){}  })
+    //filtra los artistas por nombre == artistName
+    //armar una nueva lista con todos los temas de cada artista filtrado
+    //Devolver la lista
 
+    let artistasConMismoNombre = [];
+    this.artistas.filter( function(artista) {if (artista.name == artistName) {artistasConMismoNombre = artistasConMismoNombre.concat(artista)} });    
+    let todasLasCanciones = [];
+    artistasConMismoNombre.forEach ( artista => todasLasCanciones = todasLasCanciones.concat(artista.getAllTracks()) );
+    return todasLasCanciones
   }
 
 
