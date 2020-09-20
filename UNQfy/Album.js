@@ -1,24 +1,15 @@
+
 class Album{
-    constructor(name,year){
-        this.id = undefined;
-        this.canciones = [];
-        this.generos = [];
-        this.name = name;
-        this.year = year;
-               
+    constructor(albumData)
+    {
+      this.id = undefined;
+      this.canciones = [];
+      this.genres = [];
+      this.name = albumData.name;
+      this.year = albumData.year;
     }
-    //Getters
-    getCanciones(){
-        return this.canciones;
-    }
-    getGenero(){
-        return this.generos;
-    }
-    getId(){
-        return this.id;
-    }
-}
-module.exports = {
-    Album:Album,
-    
-  };
+  
+    addTrack(newTrack){this.canciones.push(newTrack)};
+  }
+  
+module.exports = Album;

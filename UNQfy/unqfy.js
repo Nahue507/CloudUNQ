@@ -3,35 +3,57 @@ const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
 const Artista = require("./Artista"); //Para crear artistas nuevos
 const Album = require("./Album"); //Para crear y modificar albumes nuevos 
-const Playlist = require("./Album");//Para crear y modificar playlist nuevas  
+//const Playlist = require("./Playlist");//Para crear y modificar playlist nuevas  
 const Track = require("./Track");//Para crear nuevos tracks 
 const IdManager = require("./IdManager");//Manager de ids
 
-class UNQfy {
-  constructor(){
-    this.artistas = [];
-    this.albumnes = [];
-    this.tracks = [];
-    this.playsList = [];
-    this.idManager = new IdManager.IdManager();
-    
+
+
+
+
+
+class Playlist {
+  constructor(name, genres, duration)
+  {
+      this.id = id;
+      this.duration = duration;
+      this.name =name;
+      this.genres = genres;   
+      this.tracks = [];          
   }
+
   
+
+}
+
+
+
+class UNQfy {
+  constructor()
+  {
+    this.artistas = [];
+    this.albumes = [];
+    this.tracks = [];
+    this.playsLists = [];
+    this.idManager = new IdManager();
+  }
+
 
   // artistData: objeto JS con los datos necesarios para crear un artista
   //   artistData.name (string)
   //   artistData.country (string)
   // retorna: el nuevo artista creado
-  addArtist(artistData) {
-   const artista = new Artista.Artista(artistData.name, artistData.country);
-   artista.id = this.idManager.getIdArtista();
-   this.artistas.push(artista);
-   return artista;
+  addArtist(artistData){
   /* Crea un artista y lo agrega a unqfy.
   El objeto artista creado debe soportar (al menos):
     - una propiedad name (string)
     - una propiedad country (string)
   */
+    
+    const nuevoArtista = new Artista(artistData);
+    nuevoArtista.id = this.idManager.getIdArtista();
+    this.artistas.push(nuevoArtista);
+    return nuevoArtista;
   }
 
 
@@ -40,15 +62,17 @@ class UNQfy {
   //   albumData.year (number)
   // retorna: el nuevo album creado
   addAlbum(artistId, albumData) {
-    const artista = this.getArtistById(artistId);
-    const albumNuevo = new Album.Album(albumData.name,albumData.year);
-    this.albumnes.push(albumNuevo);
-    return albumNuevo;
   /* Crea un album y lo agrega al artista con id artistId.
     El objeto album creado debe tener (al menos):
      - una propiedad name (string)
      - una propiedad year (number)
   */
+    const nuevoArtista = this.getArtistById(artistId);
+    const nuevoAlbum = new Album(albumData);
+    nuevoAlbum.id = this.idManager.getIdAlbum();
+    nuevoArtista.addAlbum(nuevoAlbum);
+    this.albumes.push(nuevoAlbum);
+    return nuevoAlbum;
   }
 
 
@@ -64,27 +88,41 @@ class UNQfy {
       - una propiedad duration (number),
       - una propiedad genres (lista de strings)
   */
+    const album = this.getAlbumById(albumId);
+    const track = new Track(trackData);
+    track.id = this.idManager.getIdCancion();
+    album.addTrack(track);
+    this.tracks.push(track);
+    return track
   }
 
   getArtistById(id) {
-    const artist = this.artistas.filter(artista => artista.id == id);
+    
+    return this.artistas.filter(artista => artista.id == id)[0];
   }
 
   getAlbumById(id) {
+    return this.albumes.filter(album => album.id == id)[0];
 
   }
 
   getTrackById(id) {
+    return this.tracks.filter(track => track.id == id)[0];
 
   }
 
   getPlaylistById(id) {
+    return this.playsLists.filter(playlist => playlist.id == id)[0];
 
   }
 
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genres) {
+
+    this.artistas[0].albumes.array.forEach(element => {
+      
+    });
 
   }
 
@@ -106,6 +144,10 @@ class UNQfy {
       * un metodo duration() que retorne la duración de la playlist.
       * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
   */
+    const newPlaylist = new Playlist(name, genresToInclude, maxDuration);
+    this.playsLists.push(newPlaylist);
+
+
 
   }
 
@@ -117,7 +159,7 @@ class UNQfy {
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy];
+    const classes = [UNQfy, Artista, Album, Track, playlist];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 }
