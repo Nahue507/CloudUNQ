@@ -3,28 +3,11 @@ const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
 const Artista = require("./Artista"); //Para crear artistas nuevos
 const Album = require("./Album"); //Para crear y modificar albumes nuevos 
-//const Playlist = require("./Playlist");//Para crear y modificar playlist nuevas  
+const Playlist = require("./Playlist");//Para crear y modificar playlist nuevas  
 const Track = require("./Track");//Para crear nuevos tracks 
 const IdManager = require("./IdManager");//Manager de ids
 
 
-
-
-
-
-class Playlist {
-  constructor(name, genres, duration)
-  {
-      this.id = id;
-      this.duration = duration;
-      this.name =name;
-      this.genres = genres;   
-      this.tracks = [];          
-  }
-
-  
-
-}
 
 
 
@@ -120,9 +103,7 @@ class UNQfy {
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genres) {
 
-    this.artistas[0].albumes.array.forEach(element => {
-      
-    });
+    //this.artistas[0].albumes.array.forEach(element => {   });
 
   }
 
@@ -145,9 +126,8 @@ class UNQfy {
       * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
   */
     const newPlaylist = new Playlist(name, genresToInclude, maxDuration);
+    newPlaylist.id = this.IdManager.getIdPlaylist();
     this.playsLists.push(newPlaylist);
-
-
 
   }
 
