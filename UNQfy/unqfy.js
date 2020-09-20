@@ -150,10 +150,19 @@ class UNQfy {
       * un metodo duration() que retorne la duración de la playlist.
       * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
   */
+
     const newPlaylist = new Playlist(name, genresToInclude, maxDuration);
     newPlaylist.id = this.idManager.getIdPlaylist();
-    
     this.playsLists.push(newPlaylist);
+
+    const tracksToAdd = this.tracks.filter(function(track) {return track.hasGenres(genresToInclude);} )
+    for ( let i=0 ; i<tracksToAdd.length ; i++)
+    {
+      if ( newPlaylist.duration() + tracksToAdd[i].duration <= newPlaylist.maxDuration )
+      {
+        newPlaylist.addTrack(tracksToAdd[i]);
+      }
+    }
 
     return newPlaylist
 
@@ -167,7 +176,7 @@ class UNQfy {
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy, Artista, Album, Track, Playlist];
+    const classes = [UNQfy, Artista, Album, Track, Playlist, IdManager];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 }
@@ -177,4 +186,3 @@ module.exports = {
   UNQfy: UNQfy,
   
 };
-

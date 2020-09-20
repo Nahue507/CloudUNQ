@@ -8,6 +8,7 @@ class Artista {
         this.country = artistData.country;
     }
 
+    //newAlbum: objeto de tipo Album
     //Agrega un nuevo álbum al artista
     addAlbum(newAlbum){this.albumes.push(newAlbum)};
 
@@ -21,6 +22,7 @@ class Artista {
             res = res.concat(this.albumes[i].getTracks())
         }
         return res;
+
     }
 
   }
