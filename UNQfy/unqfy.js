@@ -103,13 +103,17 @@ class UNQfy {
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genres) {
 
-    //this.artistas[0].albumes.array.forEach(element => {   });
+    let res = [];
+    this.artistas.forEach(artista => res = res.concat(artista.getAllTracks()));
+    return res.filter(function(track) {return track.hasGenres(genres);} )
 
   }
 
   // artistName: nombre de artista(string)
   // retorna: los tracks interpredatos por el artista con nombre artistName
   getTracksMatchingArtist(artistName) {
+
+    this.artistas.forEach((artist) => {if (artist.name == artistName){}  })
 
   }
 
