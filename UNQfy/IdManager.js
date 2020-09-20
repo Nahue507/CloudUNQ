@@ -1,4 +1,6 @@
 
+//Se encarga de generar números de identificación para cada clase del sistema que lo necesite
+
 class IdManager{
     constructor()
     {

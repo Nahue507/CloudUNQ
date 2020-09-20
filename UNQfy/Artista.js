@@ -7,7 +7,22 @@ class Artista {
         this.albumes = [];
         this.country = artistData.country;
     }
+
+    //Agrega un nuevo álbum al artista
     addAlbum(newAlbum){this.albumes.push(newAlbum)};
+
+
+    //Retorna una lista de tipo array contodas las canciones del artista
+    getAllTracks()
+    {
+        let res = [];
+        
+        for (let i=0; i<this.albumes.length;i++){
+            res = res.concat(this.albumes[i].getTracks())
+        }
+        return res;
+    }
+
   }
   
 module.exports = Artista;
