@@ -124,17 +124,17 @@ class UNQfy {
 
   //name: nombre (string)
   // retirna todos los objetos con nombre name
-  searchByName(name){
+  searchByName(searchName){
 
     
-    const artists = this.artistas.filter( function(artista) { return artista.name == name} );
-    const albums = this.albumes.filter( function(album) { return album.name == name} );
-    const tracks = this.tracks.filter( function(track) { return track.name == name} );
-    const playlists = this.playsLists.filter( function(playlist) { return playlist.name == name } );
+    const artists = this.artistas.filter( function(artista) { return artista.name.includes(searchName)} );
+    const albums = this.albumes.filter( function(album) { return album.name.includes(searchName)} );
+    const tracks = this.tracks.filter( function(track) { return track.name.includes(searchName)} );
+    const playlists = this.playsLists.filter( function(playlist) { return playlist.name.includes(searchName) } );
 
-    results = {artists: artists, albums: albums, tracks: tracks, playlists: playlists};
 
-    return results
+
+    return {artists: artists, albums: albums, tracks: tracks, playlists: playlists};
     
   }
 
