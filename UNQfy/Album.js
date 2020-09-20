@@ -10,6 +10,7 @@ class Album{
     }
   
     addTrack(newTrack){this.canciones.push(newTrack)};
+    getTracks(){return this.canciones}
   }
   
 module.exports = Album;
