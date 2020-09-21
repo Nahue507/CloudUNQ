@@ -8,6 +8,7 @@ class IdManager{
       this.idAlbum = 0;
       this.idCancion = 0;
       this.idPlaylist = 0;
+      this.idUsuario = 0;
     }
     getIdArtista (){
       this.idArtista ++;
@@ -24,6 +25,10 @@ class IdManager{
     getIdPlaylist (){
       this.idPlaylist ++;
       return this.idPlaylist;
+    }
+    getIdUsuario(){
+      this.idUsuario ++;
+      return this.idUsuario;
     }
   }
   

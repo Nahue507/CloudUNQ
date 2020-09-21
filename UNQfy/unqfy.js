@@ -6,6 +6,7 @@ const Album = require("./Album"); //Para crear y modificar albumes nuevos
 const Playlist = require("./Playlist");//Para crear y modificar playlist nuevas  
 const Track = require("./Track");//Para crear nuevos tracks 
 const IdManager = require("./IdManager");//Manager de ids
+const Usuario = require("./Usuario"); 
 
 
 
@@ -19,6 +20,7 @@ class UNQfy {
     this.tracks = [];
     this.playsLists = [];
     this.idManager = new IdManager();
+    this.usuarios = [];
   }
 
 
@@ -241,10 +243,43 @@ class UNQfy {
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy, Artista, Album, Track, Playlist, IdManager];
+    const classes = [UNQfy, Artista, Album, Track, Playlist, IdManager,Usuario];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
+  //Codigo de Usuario
+  addUser(nick){
+    const usuarioNuevo = new Usuario(nick);
+    usuarioNuevo.id = this.idManager.getIdUsuario;
+    this.usuarios.push(usuarioNuevo);
+    return usuarioNuevo;
+
+  }
+  getUserById(id) {
+    return this.usuarios.filter(usuario => usuario.id == id)[0];
+
+  }
+  escuchar(idUser,track){
+    const user =this.getUserById(idUser);
+    user.escuchar(track);
+
+  }
+  cancionesQueEscucho(idUser){
+    const user = this.getUserById(idUser);
+    return user.getCancionesEscuchadas();
+  }
+  thisIs(idUser){
+    const user = this.getUserById(idUser)
+    const playlist = new Playlist();
+    playlist.id = this.idManager.getIdPlaylist();
+    playlist.name = "This is"
+    user.tresMasEscuchadas().forEach(track => {
+      playlist.addTrack(track);
+      console.log("This is " + track.name)
+      
+    });
+  }
 }
+
 
 // COMPLETAR POR EL ALUMNO: exportar todas las clases que necesiten ser utilizadas desde un modulo cliente
 module.exports = {
