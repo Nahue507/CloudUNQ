@@ -247,13 +247,28 @@ class UNQfy {
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
   //Codigo de Usuario
+  //retorna true si ya esta en uso ese usuario
+  userEnUso(nick){
+    var res = false
+    this.usuarios.forEach(usuario => {
+      
+      res = usario.nickName == nick;
+    }); 
+    return res;
+  }
   addUser(nick){
     const usuarioNuevo = new Usuario(nick);
+    if(this.userEnUso()){
+      console.log("User en uso")
+    }
+    else{
     usuarioNuevo.id = this.idManager.getIdUsuario;
     this.usuarios.push(usuarioNuevo);
     return usuarioNuevo;
+    }
 
   }
+
   getUserById(id) {
     return this.usuarios.filter(usuario => usuario.id == id)[0];
 
