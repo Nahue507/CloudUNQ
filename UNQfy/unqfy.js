@@ -22,6 +22,32 @@ class UNQfy {
   }
 
 
+  //Retorna una lista con todos los artistas agregados a UNQfy
+  allArtists()
+  {
+    return this.artistas;
+  }
+
+  //idArtist: entero, número de identificación unívoca del artista 
+  //Retorna una lista con todos los álbums agregados a UNQfy del artista
+  allAlbumsFrom(idArtist)
+  {
+    const artista = this.getArtistById(idArtist);
+    return artista.getAlbums();
+  }
+
+
+  //idAlbum: Entero que representa unívocamente a cada álbum
+  //Retorna una lista con todos los tracks agregados a UNQfy del álbum
+  allTracksFrom(idAlbum)
+  {
+    const album = this.getAlbumById(idAlbum);
+    return album.getAllTracks();
+  }
+
+
+
+
   // artistData: objeto JS con los datos necesarios para crear un artista
   //   artistData.name (string)
   //   artistData.country (string)
@@ -37,6 +63,17 @@ class UNQfy {
     nuevoArtista.id = this.idManager.getIdArtista();
     this.artistas.push(nuevoArtista);
     return nuevoArtista;
+  }
+
+
+  //idArtist: entero, número de identificación unívoca del artista
+  //Remueve el artista del sistema, junto con sus álbumes y tracks y retorna el artista removido
+  removeArtist(idArtist){
+    const artistToRemove = this.getArtistById(idArtist);
+    this.artistas = this.artistas.filter(artista => artista != artistToRemove);
+    artistToRemove.albumes.forEach((album) => {this.removeAlbum(album.id)})
+    
+    return artistToRemove
   }
 
 
@@ -56,6 +93,16 @@ class UNQfy {
     nuevoArtista.addAlbum(nuevoAlbum);
     this.albumes.push(nuevoAlbum);
     return nuevoAlbum;
+  }
+
+  //idAlbum: Entero que representa unívocamente a cada álbum
+  //Remueve el álbum de UNQfy junto con sus tracks, retorna el álbum
+  removeAlbum(idAlbum)
+  {
+    const albumToRemove = this.getAlbumById(idAlbum);
+    this.albumes = this.albumes.filter(album => album!=albumToRemove);
+    albumToRemove.tracks.forEach((track) => {this.removeTrack(track.id)})
+    return albumToRemove
   }
 
 
@@ -79,6 +126,15 @@ class UNQfy {
     return track
   }
 
+  //idTrack: Entero que representa unívocamente a cada track
+  //Remueve la canción de UNQfy, retorna la canción
+  removeTrack(idTrack)
+  {
+    const trackToRemove = this.getTrackById(idTrack);
+    this.tracks = this.tracks.filter(track => track.id == trackToRemove);
+    return trackToRemove  
+  }
+
   getArtistById(id) {
     
     return this.artistas.filter(artista => artista.id == id)[0];
@@ -89,10 +145,10 @@ class UNQfy {
 
   }
 
-  getTrackById(id) {
+  getTrackId(id){
     return this.tracks.filter(track => track.id == id)[0];
-
   }
+
 
   getPlaylistById(id) {
     return this.playsLists.filter(playlist => playlist.id == id)[0];
@@ -107,6 +163,15 @@ class UNQfy {
     this.artistas.forEach(artista => res = res.concat(artista.getAllTracks()));
     return res.filter(function(track) {return track.hasGenres(genres);} )
 
+  }
+
+  //idArtist: entero, número de identificación unívoca del artista
+  //retorna: los tracks interpredatos por el artista con nombre id idArtist
+  getTracksFrom(idArtist) 
+  {
+    const artist = this.getArtistById(idArtist);
+    return artist.getAllTracks();
+   
   }
 
   // artistName: nombre de artista(string)

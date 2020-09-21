@@ -13,6 +13,11 @@ class Artista {
     addAlbum(newAlbum){this.albumes.push(newAlbum)};
 
 
+    //Retorna una lista con toda la discografía del artista
+    getAlbums()
+    {
+        return this.albumes
+    }
     //Retorna una lista de tipo array contodas las canciones del artista
     getAllTracks()
     {

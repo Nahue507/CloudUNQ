@@ -1,6 +1,7 @@
 class Track {
     constructor(trackData)
     {
+      this.id = undefined;  
       this.name =trackData.name;
       this.duration = trackData.duration;
       this.genres = trackData.genres;

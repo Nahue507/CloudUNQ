@@ -1,6 +1,7 @@
 
 
 const fs = require('fs'); // necesitado para guardar/cargar unqfy
+const unqfy = require('./unqfy');
 const unqmod = require('./unqfy'); // importamos el modulo unqfy
 
 // Retorna una instancia de UNQfy. Si existe filename, recupera la instancia desde el archivo.
@@ -21,22 +22,23 @@ function saveUNQfy(unqfy, filename = 'data.json') {
  e implementar los diferentes comandos.
 
   Se deberán implementar los comandos:
-    - Alta y baja de Artista
-    - Alta y Baja de Albums
-    - Alta y Baja de tracks
+    - Alta y baja de Artista                      //addArtist(artistData), removeArtist(idArtist)
+    - Alta y Baja de Albums                       //addAlbum(albumData), removeAlbum(idAlbum)
+    - Alta y Baja de tracks                       //addTrack(trackData), removeTrack(trackData)
 
-    - Listar todos los Artistas
-    - Listar todos los albumes de un artista
-    - Listar todos los tracks de un album
+    - Listar todos los Artistas                   //allArtists()
+    - Listar todos los albumes de un artista      //allAlbumsFrom(idArtist)
+    - Listar todos los tracks de un album         //allTracksFrom(idAlbum)
 
-    - Busqueda de canciones intepretadas por un determinado artista
-    - Busqueda de canciones por genero
+    - Busqueda de canciones intepretadas por un determinado artista  //getTracksFrom(idArtist)
+    - Busqueda de canciones por genero            //getTracksMatchingGenres(genres)
 
     - Dado un string, imprimmir todas las entidades (artistas, albums, tracks, playlists) que coincidan parcialmente
-    con el string pasado.
+    con el string pasado.                         //searchByName(searchName)
 
     - Dada un nombre de playlist, una lista de generos y una duración máxima, crear una playlist que contenga
     tracks que tengan canciones con esos generos y que tenga como duración máxima la pasada por parámetro.
+                                                  //createPlaylist(name, genresToInclude, maxDuration)
 
   La implementacion de los comandos deberá ser de la forma:
    1. Obtener argumentos de linea de comando
@@ -47,8 +49,45 @@ function saveUNQfy(unqfy, filename = 'data.json') {
 */
 
 function main() {
-  console.log('arguments: ');
-  process.argv.forEach(argument => console.log(argument));
+  
+
+  const allArgs = process.argv.slice(2,);
+  const commandName = allArgs[0];
+  const commandArgs = allArgs.slice(1)
+
+  console.log(allArgs);
+  console.log(commandArgs);
+
+  if (commandName === "addArtist"){
+    const unqfy = getUNQfy();
+    const newArtist = unqfy.addArtist({ name: commandArgs[0], country:commandArgs[1]});
+    saveUNQfy(unqfy);
+    console.log('Se agregó el artista ', newArtist.name);
+  }
+
+  if (commandName === "removeArtist"){
+    const unqfy = getUNQfy();
+    const newArtist = unqfy.removeArtist({ name: commandArgs[0], country:commandArgs[1]});
+    saveUNQfy(unqfy);
+    console.log('Se removió el artista ', newArtist.name);
+  }
+
+  if (commandName === "addAlbum"){
+    const unqfy = getUNQfy();
+    const newAlbum = unqfy.addAlbum({ name: commandArgs[0], year:commandArgs[1]});
+    saveUNQfy(unqfy);
+    console.log('Se agregó el álbum ', newAlbum.name);
+  }
+
+  if (commandName === "removeAlbum"){
+    const unqfy = getUNQfy();
+    const newAlbum = unqfy.removeAlbum({ name: commandArgs[0], country:commandArgs[1]});
+    saveUNQfy(unqfy);
+    console.log('Se removió el álbum ', newAlbum.name);
+  }
+
+
+ 
 }
 
 main();
