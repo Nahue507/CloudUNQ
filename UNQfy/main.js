@@ -55,6 +55,9 @@ function main() {
   const commandName = allArgs[0];
   const commandArgs = allArgs.slice(1)
 
+  console.log(commandName);
+  console.log(commandArgs);
+
   
   if (commandName === "addArtist"){
 
@@ -106,22 +109,42 @@ function main() {
 
   if (commandName === "removeArtist")
   {
-    const unqfy = getUNQfy();
-    const idArtist = unqfy.searchByName(commandArgs[0]).artists[0].id;
-    unqfy.removeArtist(idArtist);
-    saveUNQfy(unqfy);
-    console.log("El artista fue removido del sistema")
+    const unqfy = getUNQfy(commandArgs[0]);
+    if (unqfy.artistExists())
+    {
+      const idArtist = unqfy.searchByName(commandArgs[0]).artists[0].id;
+      unqfy.removeArtist(idArtist);
+      saveUNQfy(unqfy);
+      console.log("El artista fue removido del sistema")
+    }
+    
   }
 
+  if (commandName === "removeAlbum")
+  {
+    const unqfy = getUNQfy();
+    if (unqfy.albumExists(commandArgs[0]))
+    {
+      const idAlbum = unqfy.searchByName(commandArgs[0]).albums[0].id;
+      unqfy.removeAlbum(idAlbum);
+      saveUNQfy(unqfy);
+      console.log("El álbum fue removido del sistema")
+    }
+    
+  }
 
 
   if (commandName === "removeTrack")
   {
     const unqfy = getUNQfy();
-    const idTrack = unqfy.searchByName(commandArgs[0]).tracks[0].id;
-    unqfy.removeTrack(idTrack);
-    saveUNQfy(unqfy);
-    console.log("La canción fue removida del sistema")
+    if (unqfy.trackExists(commandArgs[0]))
+    {
+      const idTrack = unqfy.searchByName(commandArgs[0]).tracks[0].id;
+      unqfy.removeTrack(idTrack);
+      saveUNQfy(unqfy);
+      console.log("La canción fue removida del sistema")
+    }
+    
   }
 
   if (commandName === "browseTracks")
@@ -144,7 +167,38 @@ function main() {
     console.log("Listado de artistas:")
     unqfy.artistas.forEach(artist => console.log(artist.name))
   } 
+  
+  if (commandName === "browsePlaylists")
+  {
+    const unqfy = getUNQfy();
+    console.log("Listado de playlists:")
+    unqfy.playsLists.forEach(playlist => console.log(playlist.name))
+  } 
 
+  if (commandName === "browseEverything")
+  {
+    const unqfy = getUNQfy();
+    const found = unqfy.searchByName(commandArgs[0]);
+    
+    console.log("Artistas encontrados:")
+    found.artists.forEach(artist => console.log(artist.name))
+    
+    console.log("Álbumes encontrados:")
+    found.albums.forEach(album => console.log(album.name))
+    
+    console.log("Tracks encontrados:")
+    found.tracks.forEach(track => console.log(track.name))
+    
+    console.log("Playlists encontrados:")
+    found.playlists.forEach(playlist => console.log(playlist.name))
+  }
+
+  if (commandName === "browseTracksFrom")
+  {
+    const unqfy = getUNQfy();
+    console.log("Tracks encontrados:");
+    console.log(unqfy.getTracksMatchingArtist(commandArgs[0]));
+  }
 
 }
 
