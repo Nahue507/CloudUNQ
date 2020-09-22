@@ -96,7 +96,7 @@ function main() {
     if (unqfy.albumExists(commandArgs[3]) && !(unqfy.trackExists(commandArgs[0])) )
     {
       const album = unqfy.getAlbumById(unqfy.searchByName(commandArgs[3]).albums[0].id);
-      const newTrack = unqfy.addTrack(album.id ,{ name: commandArgs[0], duration: Number(commandArgs[1]), generes:commandArgs[2] });
+      const newTrack = unqfy.addTrack(album.id ,{ name: commandArgs[0], duration: Number(commandArgs[1]), genres:commandArgs[2] });
       saveUNQfy(unqfy);
       console.log('Se agregó el track ', newTrack.name);
     }
@@ -196,9 +196,34 @@ function main() {
   if (commandName === "browseTracksFrom")
   {
     const unqfy = getUNQfy();
+    const found = unqfy.getTracksMatchingArtist(commandArgs[0]);
     console.log("Tracks encontrados:");
-    console.log(unqfy.getTracksMatchingArtist(commandArgs[0]));
+    found.forEach(track => console.log(track.name));
+    
   }
+
+  if (commandName === "browseTracksMatchingGenres")
+  {
+    const unqfy = getUNQfy();
+    const found = unqfy.getTracksMatchingGenres(commandArgs)
+    console.log("Tracks encontrados:");
+    found.forEach(track => console.log(track.name));
+    
+  }
+
+  if (commandName === "createPlaylist")
+  {
+    const unqfy = getUNQfy();
+    if  (!unqfy.playlistExists(commandArgs[0]))
+    {
+      const newPlaylist = unqfy.createPlaylist(commandArgs[0], commandArgs[1], Number(commandArgs[2]));
+      console.log( newPlaylist.name, ": se ha creado con éxito y contiene los siguientes tracks:");
+      newPlaylist.tracks.forEach(track => console.log(track.name));
+      saveUNQfy(unqfy);
+    }
+    
+  }
+
 
 }
 

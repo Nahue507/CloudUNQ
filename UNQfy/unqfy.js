@@ -69,13 +69,13 @@ class UNQfy {
 
 
   //idArtist: entero, número de identificación unívoca del artista
-  //Remueve el artista del sistema, junto con sus álbumes y tracks y retorna el artista removido
+  //Remueve el artista del sistema, junto con sus álbumes y tracks
   removeArtist(idArtist){
+
     const artistToRemove = this.getArtistById(idArtist);
     this.artistas = this.artistas.filter(artista => artista != artistToRemove);
     artistToRemove.albumes.forEach((album) => {this.removeAlbum(album.id)})
     
-    return artistToRemove
   }
 
 
@@ -98,13 +98,13 @@ class UNQfy {
   }
 
   //idAlbum: Entero que representa unívocamente a cada álbum
-  //Remueve el álbum de UNQfy junto con sus tracks, retorna el álbum
+  //Remueve el álbum de UNQfy junto con sus tracks
   removeAlbum(idAlbum)
   {
     const albumToRemove = this.getAlbumById(idAlbum);
     this.albumes = this.albumes.filter(album => album!=albumToRemove);
-    albumToRemove.tracks.forEach((track) => {this.removeTrack(track.id)})
-    return albumToRemove
+    albumToRemove.canciones.forEach((track) => {this.removeTrack(track.id)});
+    
   }
 
 
@@ -132,9 +132,10 @@ class UNQfy {
   //Remueve la canción de UNQfy, retorna la canción
   removeTrack(idTrack)
   {
+
     const trackToRemove = this.getTrackById(idTrack);
-    this.tracks = this.tracks.filter(track => track.id == trackToRemove);
-    return trackToRemove  
+    this.tracks = this.tracks.filter(track => track.id != idTrack);
+    this.playsLists.forEach(playlist => playlist.removeTrack(trackToRemove));     
   }
 
   getArtistById(id) {
@@ -147,7 +148,7 @@ class UNQfy {
 
   }
 
-  getTrackId(id){
+  getTrackById(id){
     return this.tracks.filter(track => track.id == id)[0];
   }
 
@@ -159,11 +160,10 @@ class UNQfy {
 
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
-  getTracksMatchingGenres(genres) {
-
-    let res = [];
-    this.artistas.forEach(artista => res = res.concat(artista.getAllTracks()));
-    return res.filter(function(track) {return track.hasGenres(genres);} )
+  getTracksMatchingGenres(genres) 
+  {
+     
+    return this.tracks.filter(track => track.hasGenres(genres));
 
   }
 
@@ -192,18 +192,38 @@ class UNQfy {
   //name: nombre (string)
   // retirna todos los objetos con nombre name
   searchByName(searchName){
-
-    
+  
     const artists = this.artistas.filter( function(artista) { return artista.name.includes(searchName)} );
     const albums = this.albumes.filter( function(album) { return album.name.includes(searchName)} );
     const tracks = this.tracks.filter( function(track) { return track.name.includes(searchName)} );
     const playlists = this.playsLists.filter( function(playlist) { return playlist.name.includes(searchName) } );
-
-
-
     return {artists: artists, albums: albums, tracks: tracks, playlists: playlists};
     
   }
+
+  artistExists(artistName)
+  {
+    return this.searchByName(artistName).artists[0] != undefined;
+  }
+
+  albumExists(albumName)
+  {
+    return this.searchByName(albumName).albums[0] != undefined;
+  }
+
+  trackExists(trackName)
+  {
+    return this.searchByName(trackName).tracks[0] != undefined;
+  }
+
+  playlistExists(playlistName)
+  {
+    return this.searchByName(playlistName).playlists[0] != undefined;
+  }
+
+
+
+
 
 
   // name: nombre de la playlist
@@ -221,8 +241,9 @@ class UNQfy {
     const newPlaylist = new Playlist(name, genresToInclude, maxDuration);
     newPlaylist.id = this.idManager.getIdPlaylist();
     this.playsLists.push(newPlaylist);
-
-    const tracksToAdd = this.tracks.filter(function(track) {return track.hasGenres(genresToInclude);} )
+    const tracksToAdd = this.getTracksMatchingGenres([genresToInclude]);
+    
+    
     for ( let i=0 ; i<tracksToAdd.length ; i++)
     {
       if ( newPlaylist.duration() + tracksToAdd[i].duration <= newPlaylist.maxDuration )
