@@ -1,10 +1,19 @@
 class Track {
     constructor(trackData)
     {
-      this.id = undefined;  
-      this.name =trackData.name;
-      this.duration = trackData.duration;
-      this.genres = trackData.genres;
+      this.id = undefined; 
+      this.name =undefined;
+      this.duration = undefined;
+      this.genres = undefined; 
+
+      if (!trackData)
+      {
+        this.name =trackData.name;
+        this.duration = trackData.duration;
+        this.genres = trackData.genres;
+
+      }
+      
                
     }
 

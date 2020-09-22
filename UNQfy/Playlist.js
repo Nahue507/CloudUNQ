@@ -23,6 +23,14 @@ class Playlist {
         this.tracks.push(aTrack);
     }
 
+
+    //thisTrack: objeto de tpo Track
+    //Remueve el track de la lista de canciones de la playlist
+    removeTrack(thisTrack)
+    {
+      this.tracks = this.tracks.filter(track => track == thisTrack);
+    }
+
     //Retorna la sumatoria de duraciones de todas las canciones de la playlist
     duration()
     {

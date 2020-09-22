@@ -3,9 +3,16 @@ class Artista {
     constructor(artistData)
     {
         this.id = undefined;
-        this.name =artistData.name;
+        this.name =undefined;
+        this.country = undefined;
         this.albumes = [];
-        this.country = artistData.country;
+
+        if (artistData != undefined){
+            this.name =artistData.name;
+            this.country = artistData.country;
+        }
+                           
+                
     }
 
     //newAlbum: objeto de tipo Album

@@ -65,29 +65,14 @@ function main() {
     console.log('Se agregó el artista ', newArtist.name);
   }
 
-  if (commandName === "removeArtist"){
+  if (commandName === "addAlbumt"){
     const unqfy = getUNQfy();
-    const newArtist = unqfy.removeArtist({ name: commandArgs[0], country:commandArgs[1]});
-    saveUNQfy(unqfy);
-    console.log('Se removió el artista ', newArtist.name);
-  }
-
-  if (commandName === "addAlbum"){
-    const unqfy = getUNQfy();
-    const newAlbum = unqfy.addAlbum({ name: commandArgs[0], year:commandArgs[1]});
+    const newAlbum = unqfy.addArtist({ name: commandArgs[0], year: Number(commandArgs[1])});
     saveUNQfy(unqfy);
     console.log('Se agregó el álbum ', newAlbum.name);
   }
 
-  if (commandName === "removeAlbum"){
-    const unqfy = getUNQfy();
-    const newAlbum = unqfy.removeAlbum({ name: commandArgs[0], country:commandArgs[1]});
-    saveUNQfy(unqfy);
-    console.log('Se removió el álbum ', newAlbum.name);
-  }
 
-
- 
 }
 
 main();

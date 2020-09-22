@@ -5,8 +5,13 @@ class Album{
       this.id = undefined;
       this.canciones = [];
       this.genres = [];
-      this.name = albumData.name;
-      this.year = albumData.year;
+      this.name = undefined;
+      this.year = undefined;
+      if (!albumData){
+        this.name = albumData.name;
+        this.year = albumData.year;
+      }
+      
     }
   
     //newTrack: objeto de tipo Track
