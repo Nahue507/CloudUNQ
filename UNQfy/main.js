@@ -55,22 +55,95 @@ function main() {
   const commandName = allArgs[0];
   const commandArgs = allArgs.slice(1)
 
-  console.log(allArgs);
-  console.log(commandArgs);
-
+  
   if (commandName === "addArtist"){
+
     const unqfy = getUNQfy();
-    const newArtist = unqfy.addArtist({ name: commandArgs[0], country:commandArgs[1]});
-    saveUNQfy(unqfy);
-    console.log('Se agregó el artista ', newArtist.name);
+    if (!unqfy.artistExists(commandArgs[0]))
+    {
+      const newArtist = unqfy.addArtist({ name: commandArgs[0], country:commandArgs[1]});
+      saveUNQfy(unqfy);
+      console.log('Se agregó el artista ', newArtist.name);
+    }
+    else{console.log("El artista ya existe")}
   }
 
-  if (commandName === "addAlbumt"){
+
+
+  if (commandName === "addAlbum"){
     const unqfy = getUNQfy();
-    const newAlbum = unqfy.addArtist({ name: commandArgs[0], year: Number(commandArgs[1])});
-    saveUNQfy(unqfy);
-    console.log('Se agregó el álbum ', newAlbum.name);
+    
+    if ( unqfy.artistExists(commandArgs[2]) && !(unqfy.albumExists(commandArgs[0])) )
+    {
+      const artist = unqfy.getArtistById(unqfy.searchByName(commandArgs[2]).artists[0].id);
+      const newAlbum = unqfy.addAlbum( artist.id,{ name: commandArgs[0], year: Number(commandArgs[1])});
+      saveUNQfy(unqfy);
+      console.log('Se agregó el álbum ', newAlbum.name);
+    }
+    else
+    {
+      console.log("No se completó la operación, controle que el artista exista y que el álbum no haya sido ingresado anteriormente");
+    }
+    
   }
+
+  if (commandName === "addTrack"){
+    const unqfy = getUNQfy();
+    
+    if (unqfy.albumExists(commandArgs[3]) && !(unqfy.trackExists(commandArgs[0])) )
+    {
+      const album = unqfy.getAlbumById(unqfy.searchByName(commandArgs[3]).albums[0].id);
+      const newTrack = unqfy.addTrack(album.id ,{ name: commandArgs[0], duration: Number(commandArgs[1]), generes:commandArgs[2] });
+      saveUNQfy(unqfy);
+      console.log('Se agregó el track ', newTrack.name);
+    }
+    else
+    {
+      console.log("No se completó la operación, controle que el álbum exista y que la canción no haya sido ingresada anteriormente");
+    }
+    
+  }
+
+  if (commandName === "removeArtist")
+  {
+    const unqfy = getUNQfy();
+    const idArtist = unqfy.searchByName(commandArgs[0]).artists[0].id;
+    unqfy.removeArtist(idArtist);
+    saveUNQfy(unqfy);
+    console.log("El artista fue removido del sistema")
+  }
+
+
+
+  if (commandName === "removeTrack")
+  {
+    const unqfy = getUNQfy();
+    const idTrack = unqfy.searchByName(commandArgs[0]).tracks[0].id;
+    unqfy.removeTrack(idTrack);
+    saveUNQfy(unqfy);
+    console.log("La canción fue removida del sistema")
+  }
+
+  if (commandName === "browseTracks")
+  {
+    const unqfy = getUNQfy();
+    console.log("Listado de canciones:");
+    unqfy.tracks.forEach(track => console.log(track.name));
+  }
+
+  if (commandName === "browseAlbums")
+  {
+    const unqfy = getUNQfy();
+    console.log("Listado de álbumes:")
+    unqfy.albumes.forEach(album => console.log(album.name))
+  } 
+
+  if (commandName === "browseArtists")
+  {
+    const unqfy = getUNQfy();
+    console.log("Listado de artistas:")
+    unqfy.artistas.forEach(artist => console.log(artist.name))
+  } 
 
 
 }
