@@ -7,7 +7,7 @@ class Album{
       this.genres = [];
       this.name = undefined;
       this.year = undefined;
-      if (!albumData){
+      if (albumData!= undefined){
         this.name = albumData.name;
         this.year = albumData.year;
       }

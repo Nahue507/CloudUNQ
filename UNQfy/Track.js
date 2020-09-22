@@ -6,7 +6,7 @@ class Track {
       this.duration = undefined;
       this.genres = undefined; 
 
-      if (!trackData)
+      if (trackData!= undefined)
       {
         this.name =trackData.name;
         this.duration = trackData.duration;
