@@ -216,12 +216,27 @@ function main() {
     const unqfy = getUNQfy();
     if  (!unqfy.playlistExists(commandArgs[0]))
     {
-      const newPlaylist = unqfy.createPlaylist(commandArgs[0], commandArgs[1], Number(commandArgs[2]));
+      const newPlaylist = unqfy.createPlaylist(commandArgs[0], [commandArgs[1]], Number(commandArgs[2]));
       console.log( newPlaylist.name, ": se ha creado con éxito y contiene los siguientes tracks:");
       newPlaylist.tracks.forEach(track => console.log(track.name));
       saveUNQfy(unqfy);
     }
+    else
+    {
+      console.log("Ya existe una playlist con ese nombre");
+    }
     
+  }
+
+  if (commandName === "addUser")
+  {
+    
+      const newUser = unqfy.addUser(commandArgs[0]);
+      saveUNQfy(unqfy);
+      console.log(newUser, "ha sido agregado a UNQfy")
+     
+    
+   
   }
 
 
