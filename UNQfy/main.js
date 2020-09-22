@@ -55,8 +55,7 @@ function main() {
   const commandName = allArgs[0];
   const commandArgs = allArgs.slice(1)
 
-  console.log(commandName);
-  console.log(commandArgs);
+
 
   
   if (commandName === "addArtist"){
