@@ -270,21 +270,19 @@ class UNQfy {
   //Codigo de Usuario
   //retorna true si ya esta en uso ese usuario
   userEnUso(nick){
-    var res = false
-    this.usuarios.forEach(usuario => {
-      
-      res = usario.nickName == nick;
-    }); 
-    return res;
+     const user = this.usuarios.find(usuario => usuario.nickName == nick)
+     return user != undefined;
   }
   addUser(nick){
-    const usuarioNuevo = new Usuario(nick);
-    if(this.userEnUso()){
+    
+    if(this.userEnUso(nick)){
       console.log("User en uso")
     }
     else{
+    const usuarioNuevo = new Usuario(nick);
     usuarioNuevo.id = this.idManager.getIdUsuario;
     this.usuarios.push(usuarioNuevo);
+    console.log(usuarioNuevo, "ha sido agregado a UNQfy")
     return usuarioNuevo;
     }
 
@@ -295,8 +293,14 @@ class UNQfy {
 
   }
   escuchar(idUser,track){
+    if(this.tracks.includes(track) && this.usuarios.includes(this.getUserById(idUser)))
+    {
     const user =this.getUserById(idUser);
-    user.escuchar(track);
+    user.escuchar(track);}
+    else{
+      console.log("Verificar que el track y el usuario con existan")
+    }
+
 
   }
   cancionesQueEscucho(idUser){
@@ -304,6 +308,7 @@ class UNQfy {
     return user.getCancionesEscuchadas();
   }
   thisIs(idUser){
+    if(this.userEnUso(idUser) && this.cancionesQueEscucho(idUser).size>=3){
     const user = this.getUserById(idUser)
     const playlist = new Playlist();
     playlist.id = this.idManager.getIdPlaylist();
@@ -313,6 +318,10 @@ class UNQfy {
       console.log("This is " + track.name)
       
     });
+    }
+    else{
+      console.log("No existe ese usuario con", idUser)
+    }
   }
 }
 

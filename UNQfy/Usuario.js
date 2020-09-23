@@ -9,7 +9,7 @@ class Usuario{
                
     }
    getCancionesEscuchadas(){
-       var canc  = new Set(this.canciones);
+       const canc  = new Set(this.canciones);
        return canc;
    }
    cuantasVecesEscuche(track){
@@ -18,7 +18,7 @@ class Usuario{
    escuchar(track){
         this.canciones.push(track);
         if(this.dic.has(track)){
-            var cantidadNueva = this.dic.get(track) + 1;
+            const cantidadNueva = this.dic.get(track) + 1;
             this.dic.set(track,cantidadNueva);
         }
         else{
@@ -27,9 +27,9 @@ class Usuario{
        
    }
    tresMasEscuchadas(){
-       var mapOrdenado = this.dic.sort((x, y) => x[1] - y[1]);
-       var cancionesEscuchadas = mapOrdenado.values()
-       var lasPrimeras3 = cancionesEscuchadas.slice(0,2);
+       const mapOrdenado = this.dic.sort((x, y) => x[1] - y[1]);
+       const cancionesEscuchadas = mapOrdenado.values()
+       const lasPrimeras3 = cancionesEscuchadas.slice(0,2);
        return lasPrimeras3;
 
    }

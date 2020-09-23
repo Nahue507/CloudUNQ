@@ -229,13 +229,38 @@ function main() {
 
   if (commandName === "addUser")
   {
-    
+      const unqfy = getUNQfy()
       const newUser = unqfy.addUser(commandArgs[0]);
       saveUNQfy(unqfy);
-      console.log(newUser, "ha sido agregado a UNQfy")
+      
      
     
    
+  }
+  if (commandName === "escuchar")
+  {
+    
+    const unqfy = getUNQfy();
+    unqfy.escuchar(commandArgs[0],commandArgs[1]);
+    saveUNQfy(unqfy);
+    console.log("Estas escuchando" ,commandArgs[1].name)
+    
+    
+   
+  }
+  if(commandName === "cancionesQueEscucho")
+  {
+    const unqfy = getUNQfy();
+    console.log("Escuchaste")
+    unqfy.cancionesQueEscucho(commandArgs[0]).forEach(track => {
+        console.log(track.name)
+    });
+  }
+  if(commandName === "thisIs"){
+    const unqfy = getUNQfy()
+    unqfy.thisIs(commandArgs[0]);
+  }
+  
   }
 
 
