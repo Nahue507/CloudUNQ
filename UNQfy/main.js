@@ -48,135 +48,86 @@ function saveUNQfy(unqfy, filename = 'data.json') {
 
 */
 
-function main() {
+function main() 
+{
   
 
   const allArgs = process.argv.slice(2,);
   const commandName = allArgs[0];
   const commandArgs = allArgs.slice(1)
+  const unqfy = getUNQfy()
+  
+  
+  if (commandName === "addArtist")
+  {
+    const newArtist = unqfy.addArtist({ name: commandArgs[0], country:commandArgs[1]});
+  }
 
 
+
+  if (commandName === "addAlbum")
+  {
+    const newAlbum = unqfy.addAlbum( commandArgs[2],{ name: commandArgs[0], year: Number(commandArgs[1])});
+  }
+ 
+
+
+  if (commandName === "addTrack")
+  
+  {
+    const newTrack = unqfy.addTrack(commandArgs[3] ,{ name: commandArgs[0], duration: Number(commandArgs[1]), genres:commandArgs[2] });
+  }
 
   
-  if (commandName === "addArtist"){
-
-    const unqfy = getUNQfy();
-    if (!unqfy.artistExists(commandArgs[0]))
-    {
-      const newArtist = unqfy.addArtist({ name: commandArgs[0], country:commandArgs[1]});
-      saveUNQfy(unqfy);
-      console.log('Se agregó el artista ', newArtist.name);
-    }
-    else{console.log("El artista ya existe")}
-  }
-
-
-
-  if (commandName === "addAlbum"){
-    const unqfy = getUNQfy();
-    
-    if ( unqfy.artistExists(commandArgs[2]) && !(unqfy.albumExists(commandArgs[0])) )
-    {
-      const artist = unqfy.getArtistById(unqfy.searchByName(commandArgs[2]).artists[0].id);
-      const newAlbum = unqfy.addAlbum( artist.id,{ name: commandArgs[0], year: Number(commandArgs[1])});
-      saveUNQfy(unqfy);
-      console.log('Se agregó el álbum ', newAlbum.name);
-    }
-    else
-    {
-      console.log("No se completó la operación, controle que el artista exista y que el álbum no haya sido ingresado anteriormente");
-    }
-    
-  }
-
-  if (commandName === "addTrack"){
-    const unqfy = getUNQfy();
-    
-    if (unqfy.albumExists(commandArgs[3]) && !(unqfy.trackExists(commandArgs[0])) )
-    {
-      const album = unqfy.getAlbumById(unqfy.searchByName(commandArgs[3]).albums[0].id);
-      const newTrack = unqfy.addTrack(album.id ,{ name: commandArgs[0], duration: Number(commandArgs[1]), genres:commandArgs[2] });
-      saveUNQfy(unqfy);
-      console.log('Se agregó el track ', newTrack.name);
-    }
-    else
-    {
-      console.log("No se completó la operación, controle que el álbum exista y que la canción no haya sido ingresada anteriormente");
-    }
-    
-  }
-
   if (commandName === "removeArtist")
   {
-    const unqfy = getUNQfy(commandArgs[0]);
-    if (unqfy.artistExists())
-    {
-      const idArtist = unqfy.searchByName(commandArgs[0]).artists[0].id;
-      unqfy.removeArtist(idArtist);
-      saveUNQfy(unqfy);
-      console.log("El artista fue removido del sistema")
-    }
-    
+    const idArtist = unqfy.searchByName(commandArgs[0]).artists[0].id;
+    unqfy.removeArtist(idArtist);
   }
-
+  
   if (commandName === "removeAlbum")
   {
-    const unqfy = getUNQfy();
-    if (unqfy.albumExists(commandArgs[0]))
-    {
-      const idAlbum = unqfy.searchByName(commandArgs[0]).albums[0].id;
-      unqfy.removeAlbum(idAlbum);
-      saveUNQfy(unqfy);
-      console.log("El álbum fue removido del sistema")
-    }
+    const idAlbum = unqfy.searchByName(commandArgs[0]).albums[0].id;
+    unqfy.removeAlbum(idAlbum);
     
   }
-
-
+    
+  
   if (commandName === "removeTrack")
   {
-    const unqfy = getUNQfy();
-    if (unqfy.trackExists(commandArgs[0]))
-    {
-      const idTrack = unqfy.searchByName(commandArgs[0]).tracks[0].id;
-      unqfy.removeTrack(idTrack);
-      saveUNQfy(unqfy);
-      console.log("La canción fue removida del sistema")
-    }
-    
+    const idTrack = unqfy.searchByName(commandArgs[0]).tracks[0].id;
+    unqfy.removeTrack(idTrack);
   }
+
 
   if (commandName === "browseTracks")
   {
-    const unqfy = getUNQfy();
+    
     console.log("Listado de canciones:");
     unqfy.tracks.forEach(track => console.log(track.name));
   }
 
   if (commandName === "browseAlbums")
   {
-    const unqfy = getUNQfy();
     console.log("Listado de álbumes:")
     unqfy.albumes.forEach(album => console.log(album.name))
   } 
 
   if (commandName === "browseArtists")
   {
-    const unqfy = getUNQfy();
     console.log("Listado de artistas:")
     unqfy.artistas.forEach(artist => console.log(artist.name))
   } 
   
   if (commandName === "browsePlaylists")
   {
-    const unqfy = getUNQfy();
     console.log("Listado de playlists:")
     unqfy.playsLists.forEach(playlist => console.log(playlist.name))
   } 
 
   if (commandName === "browseEverything")
   {
-    const unqfy = getUNQfy();
+    
     const found = unqfy.searchByName(commandArgs[0]);
     
     console.log("Artistas encontrados:")
@@ -194,31 +145,26 @@ function main() {
 
   if (commandName === "browseTracksFrom")
   {
-    const unqfy = getUNQfy();
     const found = unqfy.getTracksMatchingArtist(commandArgs[0]);
     console.log("Tracks encontrados:");
     found.forEach(track => console.log(track.name));
-    
   }
 
   if (commandName === "browseTracksMatchingGenres")
   {
-    const unqfy = getUNQfy();
     const found = unqfy.getTracksMatchingGenres(commandArgs)
     console.log("Tracks encontrados:");
     found.forEach(track => console.log(track.name));
-    
   }
 
   if (commandName === "createPlaylist")
   {
-    const unqfy = getUNQfy();
+    
     if  (!unqfy.playlistExists(commandArgs[0]))
     {
       const newPlaylist = unqfy.createPlaylist(commandArgs[0], [commandArgs[1]], Number(commandArgs[2]));
       console.log( newPlaylist.name, ": se ha creado con éxito y contiene los siguientes tracks:");
       newPlaylist.tracks.forEach(track => console.log(track.name));
-      saveUNQfy(unqfy);
     }
     else
     {
@@ -229,41 +175,32 @@ function main() {
 
   if (commandName === "addUser")
   {
-      const unqfy = getUNQfy()
-      const newUser = unqfy.addUser(commandArgs[0]);
-      saveUNQfy(unqfy);
-      
-     
-    
-   
+    unqfy.addUser(commandArgs[0]);
   }
+  
   if (commandName === "escuchar")
   {
-    
-    const unqfy = getUNQfy();
     unqfy.escuchar(commandArgs[0],commandArgs[1]);
-    saveUNQfy(unqfy);
     console.log("Estas escuchando" ,commandArgs[1].name)
-    
-    
-   
   }
+  
+  
   if(commandName === "cancionesQueEscucho")
   {
-    const unqfy = getUNQfy();
     console.log("Escuchaste")
-    unqfy.cancionesQueEscucho(commandArgs[0]).forEach(track => {
-        console.log(track.name)
-    });
+    unqfy.cancionesQueEscucho(commandArgs[0]).forEach(track => {console.log(track.name)});
   }
-  if(commandName === "thisIs"){
-    const unqfy = getUNQfy()
+  
+  if(commandName === "thisIs")
+  {
     unqfy.thisIs(commandArgs[0]);
   }
   
-  }
-
-
+saveUNQfy(unqfy);  
+  
 }
+
+
+
 
 main();
