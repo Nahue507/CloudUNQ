@@ -241,7 +241,7 @@ class UNQfy {
     const newPlaylist = new Playlist(name, genresToInclude, maxDuration);
     newPlaylist.id = this.idManager.getIdPlaylist();
     this.playsLists.push(newPlaylist);
-    const tracksToAdd = this.getTracksMatchingGenres([genresToInclude]);
+    const tracksToAdd = this.getTracksMatchingGenres(genresToInclude);
     
     
     for ( let i=0 ; i<tracksToAdd.length ; i++)
