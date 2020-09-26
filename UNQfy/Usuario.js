@@ -15,7 +15,7 @@ class Usuario{
    cuantasVecesEscuche(track){
      return this.dic.get(track);
    }
-   escuchar(track){
+   escuchando(track){
         this.canciones.push(track);
         if(this.dic.has(track)){
             const cantidadNueva = this.dic.get(track) + 1;
@@ -28,7 +28,7 @@ class Usuario{
    }
    tresMasEscuchadas(){
        const mapOrdenado = this.dic.sort((x, y) => x[1] - y[1]);
-       const cancionesEscuchadas = mapOrdenado.values()
+       const cancionesEscuchadas = mapOrdenado.values
        const lasPrimeras3 = cancionesEscuchadas.slice(0,2);
        return lasPrimeras3;
 

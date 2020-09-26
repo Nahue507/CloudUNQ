@@ -12,6 +12,7 @@ const Usuario = require("./Usuario");
 
 
 
+
 class UNQfy {
   constructor()
   {
@@ -191,7 +192,10 @@ class UNQfy {
   }
 
   getUserById(id) {
-    return this.usuarios.filter(usuario => usuario.id == id)[0];
+    const usuario = this.usuarios.find(usuario => usuario.id == id);
+    if(usuario != undefined){
+      return usuario
+    }
 
   }
 
@@ -293,6 +297,18 @@ class UNQfy {
      const user = this.usuarios.find(usuario => usuario.nickName == nick)
      return user != undefined;
   }
+
+  getUserByName(userName) {
+    const user = this.usuarios.find(usuario => usuario.nickName == userName);
+
+    if(user != undefined){
+      
+      return user
+    }
+    else{
+      console.log("No existe usario con ese nick")
+    }
+  }
   
   addUser(nick)
   {
@@ -314,9 +330,9 @@ class UNQfy {
   {
     if(this.trackExists(trackName) && this.userEnUso(userName))
     {
-      const user = this.getUserByName(userName)
+      const user = this.usuarios.find(user => user.nickName == userName)
       const trackToPlay = this.searchByName(trackName).tracks[0];
-      user.escuchar(trackToPlay);
+      user.escuchando(trackToPlay);
       console.log("Estas escuchando" ,trackToPlay.name)
     }
     else
@@ -338,9 +354,10 @@ class UNQfy {
     {
       const user = this.getUserById(idUser)
       const playlist = new Playlist();
+      const masEscuchadas =user.tresMasEscuchadas()
       playlist.id = this.idManager.getIdPlaylist();
       playlist.name = "This is"
-      user.tresMasEscuchadas().forEach(track => {playlist.addTrack(track);console.log("This is " + track.name)});
+      masEscuchadas.forEach(track => {playlist.addTrack(track);console.log("This is " + track.name)});
     }
     else
     {

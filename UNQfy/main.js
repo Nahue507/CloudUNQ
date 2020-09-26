@@ -216,6 +216,7 @@ function main()
     unqfy.thisIs(commandArgs[0]);
   }
 
+
   if (commandName === "help")
   {
     console.log("Lista de comandos:");
