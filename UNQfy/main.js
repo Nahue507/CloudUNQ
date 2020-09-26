@@ -67,7 +67,8 @@ function main()
 
   if (commandName === "addAlbum")
   {
-    const newAlbum = unqfy.addAlbum( commandArgs[2],{ name: commandArgs[0], year: Number(commandArgs[1])});
+    const artist = unqfy.searchByName(commandArgs[2]).artists[0];
+    const newAlbum = unqfy.addAlbum( artist.id,{ name: commandArgs[0], year: Number(commandArgs[1])});
   }
  
 
@@ -181,7 +182,6 @@ function main()
   if (commandName === "escuchar")
   {
     unqfy.escuchar(commandArgs[0],commandArgs[1]);
-    console.log("Estas escuchando" ,commandArgs[1].name)
   }
   
   
@@ -195,11 +195,34 @@ function main()
   {
     unqfy.thisIs(commandArgs[0]);
   }
+
+  if (commandName === "help")
+  {
+    console.log("Lista de comandos:");
+    console.log("addArtist <artist name> <country>");
+    console.log("addAlbum <album name> <year> <artist>");
+    console.log("addTrack <track name> <length> <genres> <album>");
+    console.log("removeArtist <artist name>");
+    console.log("removeAlbum <album name>");
+    console.log("removeTrack <track name>");
+    console.log("browseTracks");
+    console.log("browseAlbums");
+    console.log("browseArtists");
+    console.log("browsePlaylists");
+    console.log("browseEverything <pattern to match>");
+    console.log("browseTracksFrom <artist name>");
+    console.log("browseTracksMatchingGenres <list os genres to search>");
+    console.log("createPlaylist <name> <genres> <max duration>");
+    console.log("addUser <user nick>");
+    console.log("escuchar <track name> <user>");
+    console.log("cancionesQueEscucho <user>");
+    console.log("thisIs <user>");
+
+  }
   
 saveUNQfy(unqfy);  
   
 }
-
 
 
 
