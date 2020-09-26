@@ -100,10 +100,10 @@ class UNQfy {
      - una propiedad year (number)
   */
  
-    const nuevoArtista = this.getArtistById(artistId);
-    if ( this.artistExists(nuevoArtista.name) && !(this.albumExists(albumData.name)))
+    
+    if (!(this.albumExists(albumData.name)))
     {
-
+      const nuevoArtista = this.getArtistById(artistId);
       const nuevoAlbum = new Album(albumData);
       nuevoAlbum.id = this.idManager.getIdAlbum();
       nuevoArtista.addAlbum(nuevoAlbum);
@@ -113,7 +113,7 @@ class UNQfy {
     }
     else
     {
-      console.log("No se completó la operación, controle que el artista exista y que el álbum no haya sido ingresado anteriormente");
+      console.log("No se completó la operación, controle que el álbum no haya sido ingresado anteriormente");
     }
   
   }
@@ -122,6 +122,7 @@ class UNQfy {
   //Remueve el álbum de UNQfy junto con sus tracks
   removeAlbum(idAlbum)
   {
+ 
     const albumToRemove = this.getAlbumById(idAlbum);
     this.albumes = this.albumes.filter(album => album!=albumToRemove);
     albumToRemove.canciones.forEach((track) => {this.removeTrack(track.id)});
@@ -143,7 +144,7 @@ class UNQfy {
       - una propiedad genres (lista de strings)
   */
     const album = this.getAlbumById(albumId);
-    if (this.albumExists(album.name) && !(this.trackExists(trackData.name)) )
+    if (!(this.trackExists(trackData.name)) )
     {
       const track = new Track(trackData);
       track.id = this.idManager.getIdCancion();
@@ -154,7 +155,7 @@ class UNQfy {
     }
     else
     {
-     console.log("No se completó la operación, controle que el álbum exista y que la canción no haya sido ingresada anteriormente");
+     console.log("No se completó la operación, controle que la canción no haya sido ingresada anteriormente");
     }
     
   }

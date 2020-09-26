@@ -68,7 +68,15 @@ function main()
   if (commandName === "addAlbum")
   {
     const artist = unqfy.searchByName(commandArgs[2]).artists[0];
-    const newAlbum = unqfy.addAlbum( artist.id,{ name: commandArgs[0], year: Number(commandArgs[1])});
+    if ( artist )
+    {
+      const newAlbum = unqfy.addAlbum( artist.id,{ name: commandArgs[0], year: Number(commandArgs[1])});
+    }
+    else
+    {
+      console.log("El artista no está ingresado en sistema");
+    }
+    
   }
  
 
@@ -76,7 +84,16 @@ function main()
   if (commandName === "addTrack")
   
   {
-    const newTrack = unqfy.addTrack(commandArgs[3] ,{ name: commandArgs[0], duration: Number(commandArgs[1]), genres:commandArgs[2] });
+    const album = unqfy.searchByName(commandArgs[3]).albums[0];
+    if (album)
+    {
+      const newTrack = unqfy.addTrack(album.id ,{ name: commandArgs[0], duration: Number(commandArgs[1]), genres:commandArgs[2] });
+    }
+    else
+    {
+      console.log("El álbum no está ingresado en sistema");
+    }
+    
   }
 
   
@@ -88,8 +105,11 @@ function main()
   
   if (commandName === "removeAlbum")
   {
-    const idAlbum = unqfy.searchByName(commandArgs[0]).albums[0].id;
-    unqfy.removeAlbum(idAlbum);
+    const album = unqfy.searchByName(commandArgs[0]).albums[0];
+    if ( album )
+    {
+      unqfy.removeAlbum(album.id);
+    }
     
   }
     
