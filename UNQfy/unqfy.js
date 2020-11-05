@@ -7,6 +7,10 @@ const Playlist = require("./Playlist");//Para crear y modificar playlist nuevas
 const Track = require("./Track");//Para crear nuevos tracks 
 const IdManager = require("./IdManager");//Manager de ids
 const Usuario = require("./Usuario"); 
+const spotifyConnector = require('./spotifyConnector'); // Gestor de la conexión a Spotify
+
+
+
 
 
 
@@ -24,6 +28,8 @@ class UNQfy {
     this.usuarios = [];
   }
 
+
+ 
 
   //Retorna una lista con todos los artistas agregados a UNQfy
   allArtists()
@@ -68,6 +74,7 @@ class UNQfy {
         nuevoArtista.id = this.idManager.getIdArtista();
         this.artistas.push(nuevoArtista);
         console.log('Se agregó el artista ', nuevoArtista.name);
+        this.save('data.json');
         return nuevoArtista;
       }
       else
@@ -110,6 +117,7 @@ class UNQfy {
       nuevoArtista.addAlbum(nuevoAlbum);
       this.albumes.push(nuevoAlbum);
       console.log('Se agregó el álbum ', nuevoAlbum.name);
+      console.log(this.albumes)
       return nuevoAlbum;
     }
     else
@@ -364,6 +372,47 @@ class UNQfy {
       console.log("No existe ese usuario con", idUser)
     }
   }
+
+  // artistName: String, nombre del artista a buscar
+  // connexionManager: Instancia del gestor de conexión a spotify
+  // retorna: una promesa con todos los artistas que matchean el nombre
+  getSpotifyIdFor(artistName)
+  {
+    
+    const connexionManager= new spotifyConnector(this.getSpotifyToken())
+
+    const found = connexionManager.searchArtist(artistName);
+    return found;
+  }
+
+       
+
+  getAlbumsForArtist(artistName)
+  {
+    
+    const connexionManager= new spotifyConnector(this.getSpotifyToken())
+    
+    //Obtengo todos los artistas que matchean el nombre enviado
+    const spotifyId = this.getSpotifyIdFor(artistName)
+    //Obtengo los álbumes del primer artista de la lista obtenida
+    const albums = spotifyId.then((response) => connexionManager.getAlbums(response[0].id));
+    //Obtengo el UNQfy ID del artista
+    const artistID = this.searchByName(artistName).artists[0].id;
+    
+    if ( artistID )
+    {
+      albums.then((response) => response.items.forEach(item =>  this.addAlbum(artistID, {name: item.name, year: item.release_date.substring(0, 4)}) ));
+    }
+  }
+
+
+  getSpotifyToken()
+  {
+    let data = fs.readFileSync('./spotifyCreds.json');
+    data = JSON.parse(data);
+    return data.access_token;
+  }
+  
 
   
 
