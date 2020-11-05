@@ -1,7 +1,7 @@
 const rp = require('request-promise');
 
 
-class spotifyConnector{
+class musicMatchConnector{
   constructor(){
       const apikey = e40c3120e9e09fcb8d6a681bf9310ab1;
       const BASE_URL = 'http://api.musixmatch.com/ws/1.1';

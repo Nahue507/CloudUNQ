@@ -3,7 +3,9 @@
 const fs = require('fs'); // necesitado para guardar/cargar unqfy
 const unqfy = require('./unqfy');
 const unqmod = require('./unqfy'); // importamos el modulo unqfy
-const spotifyConnector = require('./spotifyConnector'); // Manager de la conexión a spotify
+const musicMatchConnector = require('./musicMatchConnector.js'); // Gestor de la conexión a MusicMatch
+const util = require('util');
+
 
 // Retorna una instancia de UNQfy. Si existe filename, recupera la instancia desde el archivo.
 function getUNQfy(filename = 'data.json') {
@@ -60,12 +62,18 @@ function main()
   
   
 
+
+  if (commandName === "getToken")
+  {
+    
+    token = unqfy.getSpotifyToken();
+    token.then((data)=> console.log(data))
+        
+  }
   
   if (commandName === "buscarAlbumesEnSpotifyPara")
   {
-    const token = "BQCc72lyv5N_Pr_1vh7TUVmCPYd3lddVocf2kH_1S9ED7kUIBD5PELWO59HRvyZd_ys85mJPeyGwK0m-nbaYz3T6jllUJ8xnhm3vKnkHZZc4Pv-VkFCI9UrxG5XlMdQwOz-Bwq4rMmCn2ir7m8O585XuQDMF1f_46UhttlwTKK4CJznhZg"
-    unqfy.getAlbumsForArtist(commandArgs[0], new spotifyConnector(token))
-        
+    unqfy.getAlbumsForArtist(commandArgs[0])
   }
 
 
@@ -143,6 +151,7 @@ function main()
   {
     console.log("Listado de álbumes:")
     unqfy.albumes.forEach(album => console.log(album.name))
+    
   } 
 
   if (commandName === "browseArtists")
@@ -252,7 +261,7 @@ function main()
 
   }
   
-saveUNQfy(unqfy);  
+  
   
 }
 
