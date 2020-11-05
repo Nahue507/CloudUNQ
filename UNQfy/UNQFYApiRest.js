@@ -1,18 +1,20 @@
-const express = require('express')
-const app = express()
-const unqFy = require('./UnqyfyHelper')
-const apiErrors = require("./ErrorsAPI")
+let express = require('express')
+let app = express()
+let unqFy = require('./UnqyfyHelper')
+let apiErrors = require("./ErrorsAPI")
 const ElementAlreadyExistsError = apiErrors.ElementAlreadyExistsError
 const ElementNotFound = apiErrors.ElementNotFound
 const RelatedElementNotFound = apiErrors.RelatedElementNotFound
 const InvalidJSON = apiErrors.InvalidJSON
-const bodyParser = require('body-parser')
-const port = process.env.PORT || 5000;
-const router = express.Router();
+let bodyParser = require('body-parser')
+let port = process.env.PORT || 8080;
+let router = express.Router();
 
 app.use(bodyParser.urlencoded({extended : true}))
 app.use(bodyParser.json())
 app.use('/api', router);
+app.listen(port);
+
 
 
 
