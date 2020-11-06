@@ -257,10 +257,11 @@ class UNQfy {
 
   //name: nombre (string)
   // retirna todos los objetos con nombre name
-  searchByName(searchName){
-  
-    const artists = this.artistas.filter( function(artista) { return artista.name.includes(searchName)} );
-    const albums = this.albumes.filter( function(album) { return album.name.includes(searchName)} );
+  searchByName(string){
+    
+    const searchName = string.toLowerCase()
+    const artists = this.artistas.filter( function(artista) { return artista.name.toLowerCase().includes(searchName)} );
+    const albums = this.albumes.filter( function(album) { return album.name.toLowerCase().includes(searchName)} );
     const tracks = this.tracks.filter( function(track) { return track.name.includes(searchName)} );
     const playlists = this.playsLists.filter( function(playlist) { return playlist.name.includes(searchName) } );
     

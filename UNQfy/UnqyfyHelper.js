@@ -13,6 +13,10 @@ function getUNQfy(filename = 'data.json') {
     unqfy.save(filename);
   }
 
+
+
+ 
+
 function addArtist(artistJson){
     let unq = getUNQfy()
     let artist = unq.addArtist(artistJson)

@@ -17,8 +17,14 @@ app.use('/api', router);
 
 
 router.get('/', function(req,res){
-    res.json({message: 'Bienvenido a tu API'});
+    res.json({message: 'Bienvenido a la API de UNQfy'});
 });
+
+
+//==================================================================================================================
+//                                          ENDPOINTS DE ARTISTAS                                                  =
+//================================================================================================================== 
+
 
 router.post("/artists",(req,res,next) => {
 
@@ -39,9 +45,6 @@ router.post("/artists",(req,res,next) => {
     else{
         next(new InvalidJSON())
     }
-    
-
-
 })
 
 
@@ -54,14 +57,11 @@ router.get("/artists/:id",(req,res,next) => {
         next(new ElementNotFound())
     }})
 
-
-
 router.patch("/artists/:id",(req,res,next) => {
     if (req.body.name && req.body.country ){
         if (unqFy.containsIdArtist(req.params.id)){
             res.status(200) 
             res.json(unqFy.updateArtist(req.params.id,req.body))
-          
         }
         else{
             next(new ElementNotFound())
@@ -93,6 +93,11 @@ router.get("/artists",(req,res) =>{
     }
 
 })
+
+//==================================================================================================================
+//                                          ENDPOINTS DE ÁLBUMES                                                   =
+//================================================================================================================== 
+
 
 router.post("/albums",(req,res,next) => {
     if (req.body.name && req.body.year && req.body.artistId !== undefined){
