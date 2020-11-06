@@ -84,7 +84,7 @@ function containsIdArtist(id){
 
 function containsArtist(name){
 
-  return getUNQfy().containsArtistByName(name)
+  return getUNQfy().artistExists(name)
 }
 
 function containsidAlbum(id){
