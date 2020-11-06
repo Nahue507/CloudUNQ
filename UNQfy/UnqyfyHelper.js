@@ -97,7 +97,7 @@ function containsAlbumByName(name){
 }
 
 function containsIdTrack(id){
-  return getUNQfy().containsIdTrack(id)
+  return getUNQfy().getTrackById(id)
 }
 
 function updateAlbum(id,albumObj){
@@ -135,10 +135,6 @@ function getAlbumsByName(name){
   const albums = found.albums;
   return albums
 }
-
-
-
-
 
 function saveLyrics(idTrack){
   let unq = getUNQfy()
