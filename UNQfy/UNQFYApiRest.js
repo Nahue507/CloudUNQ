@@ -56,11 +56,11 @@ router.get("/artists/:id",(req,res,next) => {
 
 
 
-router.put("/artists/:id",(req,res,next) => {
+router.patch("/artists/:id",(req,res,next) => {
     if (req.body.name && req.body.country ){
         if (unqFy.containsIdArtist(req.params.id)){
             res.status(200) 
-            res.json(unqFy.updateArtist(parseInt(req.params.id),req.body))
+            res.json(unqFy.updateArtist(req.params.id,req.body))
           
         }
         else{

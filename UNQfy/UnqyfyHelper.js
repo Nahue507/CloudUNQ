@@ -28,7 +28,7 @@ function parseAlbumsArtist(artistObj){
 }
 
  function getArtistById(id){
-  return  parseAlbumsArtist(getUNQfy().getArtistById(id)) 
+  return  ArtistToObject(getUNQfy().getArtistById(id)) 
 }
 
 function AlbumWithoutArtist(album){
@@ -39,30 +39,27 @@ function AlbumWithoutArtist(album){
           tracks : album.tracks}
 }   
 
-function updateArtist(id,artistObj){
+function updateArtist(id, nuevosDatos){
   let unq = getUNQfy()
   let artist = getArtistById(id)
-  let newArtist = artist
-  newArtist.name = artistObj.name
-  newArtist.country = artistObj.country
-  unq.RemoveArtist(id)
-  unq.addArtistWithID(newArtist,id)
+  artist.name = nuevosDatos.name
+  artist.country = nuevosDatos.country
   saveUNQfy(unq)
-  return parseAlbumsArtist(newArtist)
+  return artist
 
 }
 
 function RemoveArtist(id){
   let unq= getUNQfy()
-  unq.RemoveArtist(id)
+  unq.removeArtist(id)
   saveUNQfy(unq)
 }
 
 function getArtistsByName(name){
   let unq = getUNQfy()
   const found = unq.searchByName(name);
-  const artist = found.artists.filter(artist => (artist.name == name))
-  return parseArtist(artist)
+  const artist = found.artists;
+  return artist
 }
 
 function parseArtist(list){
@@ -79,7 +76,7 @@ function ArtistToObject(artist){
 }
 
 function containsIdArtist(id){
-  return getUNQfy().containsArtistById(id)
+  return getUNQfy().getArtistById(id)
 }
 
 function containsArtist(name){

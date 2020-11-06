@@ -182,21 +182,37 @@ class UNQfy {
 
   getArtistById(id) {
     
-    return this.artistas.filter(artista => artista.id == id)[0];
+    if (this.artistas.filter(artista => artista.id == id))
+    {
+      return this.artistas.filter(artista => artista.id == id)[0];
+    }
+    
   }
 
   getAlbumById(id) {
-    return this.albumes.filter(album => album.id == id)[0];
+
+    if (this.albumes.filter(album => album.id == id))
+    {
+      return this.albumes.filter(album => album.id == id)[0];
+    }
+    
 
   }
 
   getTrackById(id){
-    return this.tracks.filter(track => track.id == id)[0];
+    if (this.tracks.filter(track => track.id == id))
+    {
+      return this.tracks.filter(track => track.id == id)[0];
+    }
   }
 
 
   getPlaylistById(id) {
-    return this.playsLists.filter(playlist => playlist.id == id)[0];
+    if (this.playsLists.filter(playlist => playlist.id == id))
+    {
+      return this.playsLists.filter(playlist => playlist.id == id)[0];
+    }
+    
 
   }
 
