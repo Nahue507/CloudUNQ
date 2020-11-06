@@ -74,7 +74,7 @@ router.patch("/artists/:id",(req,res,next) => {
 
 router.delete("/artists/:id",(req,res,next) => {res.status(204)
     if (unqFy.containsIdArtist(req.params.id)){
-        unqFy.RemoveArtist(req.params.id)
+        unqFy.removeArtist(req.params.id)
     res.send("Artista Eliminado")
     }
     else{
@@ -131,11 +131,12 @@ router.get("/albums/:id",(req,res,next) => {
     }
 })
 
+
 router.patch("/albums/:id",(req,res,next) => {
     if (req.body.name || req.body.year ){
         if (unqFy.containsidAlbum(req.params.id)){
             res.status(200)
-            res.json(unqFy.UpdateAlbum(req.params.id,req.body))
+            res.json(unqFy.updateAlbum(req.params.id,req.body))
         }
         else{
             next(new ElementNotFound())
@@ -150,7 +151,7 @@ router.patch("/albums/:id",(req,res,next) => {
 router.delete("/albums/:id",(req,res,next) => {
     if (unqFy.containsidAlbum(req.params.id)){
         res.status(204)
-        unqFy.RemoveAlbum(req.params.id)
+        unqFy.removeAlbum(req.params.id)
         res.send("Album Eliminado")
     }
     else{

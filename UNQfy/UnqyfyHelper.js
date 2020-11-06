@@ -53,7 +53,7 @@ function updateArtist(id, nuevosDatos){
 
 }
 
-function RemoveArtist(id){
+function removeArtist(id){
   let unq= getUNQfy()
   unq.removeArtist(id)
   saveUNQfy(unq)
@@ -89,7 +89,7 @@ function containsArtist(name){
 }
 
 function containsidAlbum(id){
-  return getUNQfy().containsAlbumById(id)
+  return getUNQfy().getAlbumById(id)
 }
 
 function containsAlbumByName(name){
@@ -100,21 +100,18 @@ function containsIdTrack(id){
   return getUNQfy().containsIdTrack(id)
 }
 
-function UpdateAlbum(id,albumObj){
+function updateAlbum(id,albumObj){
   let unq = getUNQfy()
   let album = unq.getAlbumById(id)
   let newAlbum = album
-  newAlbum.name = albumObj.name || album.name
-  newAlbum.year = albumObj.year || album.year
-  unq.RemoveAlbum(album.id)
-  unq.addAlbumWithID(newAlbum.artist.id,newAlbum,newAlbum.id)
+  newAlbum.year = albumObj.year
   saveUNQfy(unq)
-  return AlbumWithoutArtist(newAlbum)
+  return newAlbum
 }
 
-function RemoveAlbum(id){
+function removeAlbum(id){
   let unq = getUNQfy()
-  unq.RemoveAlbum(id)
+  unq.removeAlbum(id)
   saveUNQfy(unq)
 }
 
@@ -129,12 +126,19 @@ function addAlbum(albumData){
 }
 
 function getAlbumById(id){
-  return AlbumWithoutArtist(getUNQfy().getAlbumById(id))
+  return getUNQfy().getAlbumById(id)
 }
 
 function getAlbumsByName(name){
-  return getUNQfy().getAlbumsByName(name).map(elem => AlbumWithoutArtist(elem))
+  let unq = getUNQfy()
+  const found = unq.searchByName(name);
+  const albums = found.albums;
+  return albums
 }
+
+
+
+
 
 function saveLyrics(idTrack){
   let unq = getUNQfy()
@@ -159,7 +163,7 @@ module.exports = {
     getArtistById,
     parseAlbumsArtist,
     updateArtist,
-    RemoveArtist,
+    removeArtist,
     getArtistsByName,
     containsArtist,
     containsIdArtist,
@@ -167,8 +171,8 @@ module.exports = {
     containsAlbumByName,
     addAlbum,
     getAlbumById,
-    UpdateAlbum,
-    RemoveAlbum,
+    updateAlbum,
+    removeAlbum,
     getAlbumsByName,
     containsIdTrack,
     getLyrics,
