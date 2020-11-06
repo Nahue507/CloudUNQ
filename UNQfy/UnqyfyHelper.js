@@ -139,7 +139,7 @@ function getAlbumsByName(name){
 function saveLyrics(idTrack){
   let unq = getUNQfy()
   let track = unq.getTrackById(idTrack)
-  const promise = Promise.resolve(track.getLyrics())
+  const promise = Promise.resolve(unq.getLyrics(idTrack))
   return promise.then((lyrics)=>{
     console.log(lyrics)
     saveUNQfy(unq)

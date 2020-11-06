@@ -118,7 +118,6 @@ class UNQfy {
       nuevoArtista.addAlbum(nuevoAlbum);
       this.albumes.push(nuevoAlbum);
       console.log('Se agregó el álbum ', nuevoAlbum.name);
-      console.log(this.albumes)
       return nuevoAlbum;
     }
     else
@@ -433,11 +432,19 @@ class UNQfy {
     return data.access_token;
   }
   
-  getArtistIdFromMusicmatch(artistName){
-    const connexionManager = new musicMatchConnector();
-    const id = connexionManager.getArtistID(artistName);
-    //id.then((response)=> console.log(response));
+  //getArtistIdFromMusicmatch(artistName){
+  //  const connexionManager = new musicMatchConnector();
+  //  const id = connexionManager.getArtistID(artistName);
+  //  //id.then((response)=> console.log(response));
+  //}
+
+  getLyrics(trackID)
+  {
+    //Artista dueño del track
+    //ID de musicmatch del artista
+
   }
+  
 
   
 
