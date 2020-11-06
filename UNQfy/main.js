@@ -3,7 +3,7 @@
 const fs = require('fs'); // necesitado para guardar/cargar unqfy
 const unqfy = require('./unqfy');
 const unqmod = require('./unqfy'); // importamos el modulo unqfy
-const musicMatchConnector = require('./musicMatchConnector.js'); // Gestor de la conexión a MusicMatch
+const musicMatchConnector = require('./musicMatchConnector'); // Gestor de la conexión a MusicMatch
 const util = require('util');
 
 
@@ -76,6 +76,11 @@ function main()
     unqfy.getAlbumsForArtist(commandArgs[0])
   }
 
+  if (commandName === "buscarLetraEnMusicMatch")
+  {
+    unqfy.getArtistIdFromMusicmatch(commandArgs[0])
+  }
+  
 
   if (commandName === "addArtist")
   {

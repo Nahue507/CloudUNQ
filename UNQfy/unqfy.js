@@ -8,6 +8,7 @@ const Track = require("./Track");//Para crear nuevos tracks
 const IdManager = require("./IdManager");//Manager de ids
 const Usuario = require("./Usuario"); 
 const spotifyConnector = require('./spotifyConnector'); // Gestor de la conexión a Spotify
+const musicMatchConnector = require('./musicMatchConnector'); // Gestor de la conexión a MusicMatch
 
 
 
@@ -406,6 +407,8 @@ class UNQfy {
   }
 
 
+  
+
   getSpotifyToken()
   {
     let data = fs.readFileSync('./spotifyCreds.json');
@@ -413,6 +416,11 @@ class UNQfy {
     return data.access_token;
   }
   
+  getArtistIdFromMusicmatch(artistName){
+    const connexionManager = new musicMatchConnector();
+    const id = connexionManager.getArtistID(artistName);
+    //id.then((response)=> console.log(response));
+  }
 
   
 
