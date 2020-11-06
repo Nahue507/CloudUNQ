@@ -85,6 +85,7 @@ function main()
   if (commandName === "addArtist")
   {
     const newArtist = unqfy.addArtist({ name: commandArgs[0], country:commandArgs[1]});
+    saveUNQfy(unqfy);
   }
 
 

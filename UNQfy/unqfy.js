@@ -75,7 +75,7 @@ class UNQfy {
         nuevoArtista.id = this.idManager.getIdArtista();
         this.artistas.push(nuevoArtista);
         console.log('Se agregó el artista ', nuevoArtista.name);
-        this.save('data.json');
+        
         return nuevoArtista;
       }
       else

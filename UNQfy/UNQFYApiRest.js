@@ -16,7 +16,9 @@ app.use('/api', router);
 
 
 
-
+router.get('/', function(req,res){
+    res.json({message: 'Bienvenido a tu API'});
+});
 
 router.post("/artists",(req,res,next) => {
 

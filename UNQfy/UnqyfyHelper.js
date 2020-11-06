@@ -60,7 +60,9 @@ function RemoveArtist(id){
 
 function getArtistsByName(name){
   let unq = getUNQfy()
-  return parseArtist(unq.getArtistsByName(name))
+  const found = unq.searchByName(name);
+  const artist = found.artists.filter(artist => (artist.name == name))
+  return parseArtist(artist)
 }
 
 function parseArtist(list){
