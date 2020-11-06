@@ -93,7 +93,7 @@ function containsidAlbum(id){
 }
 
 function containsAlbumByName(name){
-  return getUNQfy().containsAlbumByName(name)
+  return getUNQfy().albumExists(name)
 }
 
 function containsIdTrack(id){
