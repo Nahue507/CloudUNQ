@@ -3,7 +3,7 @@ class Album{
     constructor(albumData)
     {
       this.id = undefined;
-      this.canciones = [];
+      this.tracks = [];
       this.genres = [];
       this.name = undefined;
       this.year = undefined;
@@ -16,11 +16,16 @@ class Album{
   
     //newTrack: objeto de tipo Track
     //Agrega una canción al álbum
-    addTrack(newTrack){this.canciones.push(newTrack)};
+    addTrack(newTrack){this.tracks.push(newTrack)};
 
     
     //Retorna una lista de tipo array con todas las canciones del álbum
-    getTracks(){return this.canciones}
+    getTracks(){return this.tracks}
+  
+    toJSON() {
+      return {id: this.id , tracks: this.tracks, name: this.name , year: this.year}; 
+    }
+   
   }
   
 module.exports = Album;

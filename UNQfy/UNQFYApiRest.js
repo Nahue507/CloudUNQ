@@ -57,11 +57,12 @@ router.get("/artists/:id",(req,res,next) => {
         next(new ElementNotFound())
     }})
 
-router.patch("/artists/:id",(req,res,next) => {
+router.put("/artists/:id",(req,res,next) => {
     if (req.body.name && req.body.country ){
         if (unqFy.containsIdArtist(req.params.id)){
             res.status(200) 
-            res.json(unqFy.updateArtist(req.params.id,req.body))
+            updatedArtist = unqFy.updateArtist(req.params.id,req.body)
+            res.json(updatedArtist)
         }
         else{
             next(new ElementNotFound())
@@ -72,10 +73,12 @@ router.patch("/artists/:id",(req,res,next) => {
     }
 })
 
-router.delete("/artists/:id",(req,res,next) => {res.status(204)
+router.delete("/artists/:id",(req,res,next) => {
+        
     if (unqFy.containsIdArtist(req.params.id)){
         unqFy.removeArtist(req.params.id)
-    res.send("Artista Eliminado")
+        res.status(204) 
+        res.send("Artista Eliminado")
     }
     else{
         next(new ElementNotFound())
@@ -85,7 +88,9 @@ router.delete("/artists/:id",(req,res,next) => {res.status(204)
 router.get("/artists",(req,res) =>{
     if (req.query.name != undefined){
     res.status(200)
-    res.json(unqFy.getArtistsByName(req.query.name))
+    artist = unqFy.getArtistsByName(req.query.name);
+    
+    res.json(artist)
     }
     else{
         res.status(200)

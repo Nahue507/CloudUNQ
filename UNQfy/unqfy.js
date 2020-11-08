@@ -2,7 +2,7 @@
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
 const Artista = require("./Artista"); //Para crear artistas nuevos
-const Album = require("./Album"); //Para crear y modificar albumes nuevos 
+const Album = require("./Album"); //Para crear y modificar albums nuevos 
 const Playlist = require("./Playlist");//Para crear y modificar playlist nuevas  
 const Track = require("./Track");//Para crear nuevos tracks 
 const IdManager = require("./IdManager");//Manager de ids
@@ -22,7 +22,7 @@ class UNQfy {
   constructor()
   {
     this.artistas = [];
-    this.albumes = [];
+    this.albums = [];
     this.tracks = [];
     this.playsLists = [];
     this.idManager = new IdManager();
@@ -91,8 +91,9 @@ class UNQfy {
   removeArtist(idArtist){
 
     const artistToRemove = this.getArtistById(idArtist);
+    artistToRemove.albums.forEach((album) => {this.removeAlbum(album.id)})
     this.artistas = this.artistas.filter(artista => artista != artistToRemove);
-    artistToRemove.albumes.forEach((album) => {this.removeAlbum(album.id)})
+    
     
   }
 
@@ -116,7 +117,7 @@ class UNQfy {
       const nuevoAlbum = new Album(albumData);
       nuevoAlbum.id = this.idManager.getIdAlbum();
       nuevoArtista.addAlbum(nuevoAlbum);
-      this.albumes.push(nuevoAlbum);
+      this.albums.push(nuevoAlbum);
       console.log('Se agregó el álbum ', nuevoAlbum.name);
       return nuevoAlbum;
     }
@@ -133,8 +134,10 @@ class UNQfy {
   {
  
     const albumToRemove = this.getAlbumById(idAlbum);
-    this.albumes = this.albumes.filter(album => album!=albumToRemove);
-    albumToRemove.canciones.forEach((track) => {this.removeTrack(track.id)});
+    this.artistas.forEach((artista)=>{artista.removeAlbum(idAlbum)})
+    albumToRemove.tracks.forEach((track) => {this.removeTrack(track.id)});
+    this.albums = this.albums.filter(album => album!=albumToRemove);
+    
     
   }
 
@@ -190,9 +193,9 @@ class UNQfy {
 
   getAlbumById(id) {
 
-    if (this.albumes.filter(album => album.id == id))
+    if (this.albums.filter(album => album.id == id))
     {
-      return this.albumes.filter(album => album.id == id)[0];
+      return this.albums.filter(album => album.id == id)[0];
     }
     
 
@@ -260,7 +263,7 @@ class UNQfy {
     
     const searchName = string.toLowerCase()
     const artists = this.artistas.filter( function(artista) { return artista.name.toLowerCase().includes(searchName)} );
-    const albums = this.albumes.filter( function(album) { return album.name.toLowerCase().includes(searchName)} );
+    const albums = this.albums.filter( function(album) { return album.name.toLowerCase().includes(searchName)} );
     const tracks = this.tracks.filter( function(track) { return track.name.includes(searchName)} );
     const playlists = this.playsLists.filter( function(playlist) { return playlist.name.includes(searchName) } );
     

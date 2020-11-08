@@ -45,7 +45,7 @@ function AlbumWithoutArtist(album){
 
 function updateArtist(id, nuevosDatos){
   let unq = getUNQfy()
-  let artist = getArtistById(id)
+  let artist = unq.getArtistById(id)
   artist.name = nuevosDatos.name
   artist.country = nuevosDatos.country
   saveUNQfy(unq)
@@ -63,7 +63,7 @@ function getArtistsByName(name){
   let unq = getUNQfy()
   const found = unq.searchByName(name);
   const artist = found.artists;
-  return artist
+  return artist;
 }
 
 function parseArtist(list){
@@ -80,7 +80,9 @@ function ArtistToObject(artist){
 }
 
 function containsIdArtist(id){
-  return getUNQfy().getArtistById(id)
+  console.log("Artista encontrado")
+  artista = getUNQfy().getArtistById(id)
+  return artista
 }
 
 function containsArtist(name){
@@ -103,10 +105,9 @@ function containsIdTrack(id){
 function updateAlbum(id,albumObj){
   let unq = getUNQfy()
   let album = unq.getAlbumById(id)
-  let newAlbum = album
-  newAlbum.year = albumObj.year
+  album.year = albumObj.year
   saveUNQfy(unq)
-  return newAlbum
+  return album
 }
 
 function removeAlbum(id){
@@ -126,7 +127,7 @@ function addAlbum(albumData){
 }
 
 function getAlbumById(id){
-  return getUNQfy().getAlbumById(id)
+  return getUNQfy().getAlbumById(id);
 }
 
 function getAlbumsByName(name){
