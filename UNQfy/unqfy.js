@@ -446,7 +446,7 @@ class UNQfy {
   {
 
     const track = this.getTrackById(trackID)
-    const lyrics = track.getLyrics(new musicMatchConnector());
+    const lyrics = track.getLyrics(new musicMatchConnector(), this);
     return lyrics;
     
 

@@ -144,8 +144,8 @@ function saveLyrics(idTrack){
 
 function getLyrics(idTrack){
   let unq = getUNQfy()
-  //saveLyrics(idTrack)
-  //let track = unq.getTrackById(idTrack)
+  saveLyrics(idTrack)
+  
   const lyrics = unq.getLyrics(idTrack)
   return lyrics
     

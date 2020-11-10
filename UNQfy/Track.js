@@ -25,12 +25,17 @@ class Track {
         return !(listOfGenres.concat(this.genres).length == set.size);
     }
 
-    getLyrics(musicMatch){
+    getLyrics(musicMatch, unq){
       if (this.lyrics === undefined){
-        this.lyrics = musicMatch.getLyrics(this)
+        this.lyrics = musicMatch.getLyrics(this, unq)
         
       }
       return this.lyrics;
+    }
+
+    saveLyrics(lyrics, unq){
+      this.lyrics = lyrics
+      unq.save('data.json')
     }
 
   }

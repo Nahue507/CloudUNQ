@@ -5,10 +5,10 @@ class musicMatchConnector
 {
     
     
-    getLyrics(track)
+    getLyrics(track, unq)
     {
         
-       const musicMatchId = this.getMusicMatchId(track)
+       const musicMatchId = this.getMusicMatchId(track, unq)
        //this.getMusicMatchLyrics(musicMatchId)
 
         
@@ -18,12 +18,12 @@ class musicMatchConnector
 
 
 
-    getMusicMatchId(track){
+    getMusicMatchId(track, unq){
         var options = {
             uri: 'http://api.musixmatch.com/ws/1.1/track.search',
             qs: {
                 apikey: 'e40c3120e9e09fcb8d6a681bf9310ab1',
-                q_track: track.name,
+                q_track: 'Somebody That I Used to Know',
             },
             json: true 
           };
@@ -37,15 +37,15 @@ class musicMatchConnector
                  throw new Error('status code != 200');
              }
           
-             var musicMatchId = body.track_list[0].track.commontrack_id;
+             var musicMatchId = body.track_list[0].track.track_id;
              
              
              console.log("El id de la canción es");
              console.log(musicMatchId)
-             
-          }).then((response) => {
-            
-            this.getMusicMatchLyrics(track, response)
+             this.getMusicMatchLyrics(track, '15953433', unq);
+
+
+
 
           }).catch((error) => {
              console.log('algo salio mal', error);
@@ -55,12 +55,12 @@ class musicMatchConnector
 
 
 
-    getMusicMatchLyrics(track, MusicMatchId){
+    getMusicMatchLyrics(track, musicMatchId, unq){
         var options = {
-        uri: 'http://api.musixmatch.com/ws/1.1/track.search',
+        uri: 'http://api.musixmatch.com/ws/1.1/track.lyrics.get',
         qs: {
             apikey: 'e40c3120e9e09fcb8d6a681bf9310ab1',
-            q_track: track.name,
+            track_id: musicMatchId,
         },
         json: true 
       };
@@ -74,12 +74,13 @@ class musicMatchConnector
              throw new Error('status code != 200');
          }
       
-         var musicMatchId = body.track_list[0].track.commontrack_id;
+         var lyrics = body.lyrics.lyrics_body
          
          
-         console.log("El id de la canción es");
-         console.log(musicMatchId)
-         
+         console.log("El resultado de getLyrics es");
+         console.log(lyrics)
+         track.saveLyrics(lyrics, unq);
+
       })
     }
 
