@@ -26,8 +26,9 @@ class Track {
     }
 
     getLyrics(musicMatch){
-      if (this.lyrics){
-        this.lyrics = musicMatch.getLyrics(this.name, artist)
+      if (this.lyrics === undefined){
+        this.lyrics = musicMatch.getLyrics(this)
+        
       }
       return this.lyrics;
     }

@@ -113,6 +113,7 @@ function main()
     if (album)
     {
       const newTrack = unqfy.addTrack(album.id ,{ name: commandArgs[0], duration: Number(commandArgs[1]), genres:commandArgs[2] });
+      
     }
     else
     {

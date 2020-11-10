@@ -163,6 +163,7 @@ class UNQfy {
       album.addTrack(track);
       this.tracks.push(track);
       console.log('Se agregó el track ', track.name);
+      this.save('data.json')
       return track
     }
     else
@@ -443,8 +444,11 @@ class UNQfy {
 
   getLyrics(trackID)
   {
-    //Artista dueño del track
-    //ID de musicmatch del artista
+
+    const track = this.getTrackById(trackID)
+    const lyrics = track.getLyrics(new musicMatchConnector());
+    return lyrics;
+    
 
   }
   

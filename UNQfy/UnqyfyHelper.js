@@ -139,20 +139,16 @@ function getAlbumsByName(name){
 
 function saveLyrics(idTrack){
   let unq = getUNQfy()
-  let track = unq.getTrackById(idTrack)
-  const promise = Promise.resolve(unq.getLyrics(idTrack))
-  return promise.then((lyrics)=>{
-    console.log(lyrics)
-    saveUNQfy(unq)
-  })
-
+  unq.getLyrics(idTrack)
 }
 
 function getLyrics(idTrack){
   let unq = getUNQfy()
-  saveLyrics(idTrack)
-  let track = unq.getTrackById(idTrack)
-  return track.lyrics
+  //saveLyrics(idTrack)
+  //let track = unq.getTrackById(idTrack)
+  const lyrics = unq.getLyrics(idTrack)
+  return lyrics
+    
 }
 
 module.exports = {
