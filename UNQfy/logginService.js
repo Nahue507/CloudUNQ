@@ -2,8 +2,8 @@ var winston = require('winston');
 var {Loggly} = require('winston-loggly-bulk');
 
 winston.add(new Loggly({
-    token:"", 
-    subdomain:"" ,
+    token:"be43cf7a-3da2-406c-a416-c88790d5d78c", 
+    subdomain:"nahue" ,
     tags: ["Winston-NodeJS"],
     json: true
 }));
