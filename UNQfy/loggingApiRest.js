@@ -1,5 +1,5 @@
 const express = require('express')
-const loggly = require('./logginService')
+const loggly = require('./logService')
 const apiErrors = require("./ErrorsAPI")
 const ServerOFFError = apiErrors.ServerOFFError
 const app = express()
