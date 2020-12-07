@@ -21,6 +21,11 @@ router.get('/api', function(req,res){
 });
 
 
+function addSuscriber(artistID, email){
+
+}
+
+
 //==================================================================================================================
 //                                          ENDPOINTS DE SUSCRIPCIÖN                                               =
 //================================================================================================================== 
@@ -32,12 +37,9 @@ router.post('/api/subscribe', function(req,res,next){
         if (true) /*Artista existe*/{
             
             res.status(200);
-            /*Agregar el mail a la lista de suscripción del artista*/
-            suscriptionMap.prototype.set(req.body.artistId, req.body.email)
+            suscriptionMap.set(req.body.artistId, req.body.email)
             res.json({message: `Suscripción exitosa de ${req.body.email}`});
-            
-            
-            
+                  
             }
         else {
             next(new ElementNotFound());
@@ -93,12 +95,12 @@ router.get("/api/subscriptions:artistId",(req,res,next) => {
     if (req.body.artistId ){
         if (true) /*Artista existe*/{
             
-            /*Devolver todos los suscriptores de un artista*/
+
             res.json({message: `Búsqueda de ${req.body.artistId}`});
             res.status(200);
             res.json({
                 "artistId" : req.body.artistId,
-                "subscriptors" : suscriptionMap[artistId],
+                "subscriptors" : suscriptionMap.get(req.body.artistId),
             })}   
             
         else { next(new ElementNotFound()) }
@@ -112,9 +114,8 @@ router.delete("/api/subscriptions",(req,res,next) => {
     if (req.body.artistId ){
         if (true) /*Artista existe*/{
             
-            /*Devolver todos los suscriptores de un artista*/
             res.json({message: "Desuscripción exitosa"});
-            //suscriptionMap.pop(artistId);
+            suscriptionMap.delete(req.body.artistId);
             res.status(200);
         }
             
