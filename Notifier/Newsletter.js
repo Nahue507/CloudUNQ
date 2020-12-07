@@ -23,6 +23,18 @@ router.get('/api', function(req,res){
 
 function addSuscriber(artistID, email){
 
+    if (suscriptionMap.has(artistID)){
+        suscriptionMap.get(artistID).push(email)}
+    else{suscriptionMap.set(artistID, [email])}
+
+}
+
+function deleteSuscriber(artistID, email){
+
+    if (suscriptionMap.has(artistID)){
+        suscriptionMap.get(artistID).splice(suscriptionMap.get(artistID).indexOf(email), 1);
+    }
+    
 }
 
 
@@ -36,9 +48,9 @@ router.post('/api/subscribe', function(req,res,next){
     if (req.body.artistId && req.body.email ){
         if (true) /*Artista existe*/{
             
+            addSuscriber(req.body.artistId, req.body.email)            
             res.status(200);
-            suscriptionMap.set(req.body.artistId, req.body.email)
-            res.json({message: `Suscripción exitosa de ${req.body.email}`});
+            res.json({message: `Emails agregados hasta la fecha ${suscriptionMap.get(req.body.artistId)}`});
                   
             }
         else {
@@ -56,9 +68,10 @@ router.post("/api/unsubscribe",(req,res,next) => {
     if (req.body.artistId && req.body.email ){
         if (true) /*Artista existe*/{
             
-            /*Quitar el mail de la lista de suscripción del artista*/
+            
+            deleteSuscriber(req.body.artistId, req.body.email)
             res.status(200);
-            res.json({message: "Desuscripción exitosa"});
+            res.json({message: `Emails agregados hasta la fecha ${suscriptionMap.get(req.body.artistId)}`});
             
             
             }
@@ -114,8 +127,7 @@ router.delete("/api/subscriptions",(req,res,next) => {
     if (req.body.artistId ){
         if (true) /*Artista existe*/{
             
-            res.json({message: "Desuscripción exitosa"});
-            suscriptionMap.delete(req.body.artistId);
+            res.json({message: ""});
             res.status(200);
         }
             
