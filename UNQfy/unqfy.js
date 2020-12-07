@@ -95,15 +95,11 @@ class UNQfy {
     this.artistas = this.artistas.filter(artista => artista != artistToRemove);
      //=====================NEWSLETTER POST==================================//
 
-     const data = {
-      artistId: artistToRemove,
-    
-    };
-
+    const data = { artistId: artistToRemove, };
     axios
-    .DELETE('http://localhost:7000/api/subscriptions', data)
+    .delete('http://localhost:8080/api/subscriptions', data)
     .then(response => {
-      console.log("Se envió la notificación de artista eliminado")
+      
     })
     .catch(error => console.error(error));
     //=====================================================================//
@@ -142,9 +138,9 @@ class UNQfy {
       };
 
       axios
-      .post('http://localhost:7000/api/subscribe', data)
+      .post('http://localhost:8080/api/notify', data)
       .then(response => {
-        console.log("Se envió la notificación de nuevo álbum")
+        
       })
       .catch(error => console.error(error));
       //=====================================================================//

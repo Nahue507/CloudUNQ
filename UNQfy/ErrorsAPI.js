@@ -29,19 +29,20 @@ class ErrorsAPI extends Error {
          super("InvalidJSON",400,"BAD_REQUEST")
      }
  }
- class ServerOFFError extends APIError{
+ class ServerOFFError extends ErrorsAPI{
     constructor(){
         super("Server OFF" , 400 , "SERVER_OFF")
     }
 }
 
-class MissingArgumentJSON extends APIError{
+class MissingArgumentJSON extends ErrorsAPI{
    constructor(){
        super("MissingArgumentJSON",400,"BAD_REQUEST")
    }
 }
 
 module.exports={
+    ErrorsAPI: ErrorsAPI,
     ElementAlreadyExistsError: ElementAlreadyExistsError,
     ElementNotFound : ElementNotFound,
     RelatedElementNotFound : RelatedElementNotFound,
