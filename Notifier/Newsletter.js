@@ -1,6 +1,5 @@
 let express = require('express')
 let app = express()
-let unqFy = require('./UnqyfyHelper')
 let apiErrors = require("./ErrorsAPI")
 const ElementAlreadyExistsError = apiErrors.ElementAlreadyExistsError
 const ElementNotFound = apiErrors.ElementNotFound
@@ -9,14 +8,15 @@ const InvalidJSON = apiErrors.InvalidJSON
 let bodyParser = require('body-parser')
 let port = process.env.PORT || 8080;
 let router = express.Router();
+const suscriptionMap = new Map();
 
 app.use(bodyParser.urlencoded({extended : true}))
 app.use(bodyParser.json())
-app.use('/api', router);
+app.use('/', router);
 
 
 
-router.get('/', function(req,res){
+router.get('/api', function(req,res){
     res.json({message: 'Bienvenido a la API de UNQfy'});
 });
 
@@ -26,15 +26,17 @@ router.get('/', function(req,res){
 //================================================================================================================== 
 
 
-router.post("/api/subscribe",(req,res,next) => {
+router.post('/api/subscribe', function(req,res,next){
 
     if (req.body.artistId && req.body.email ){
         if (true) /*Artista existe*/{
             
-            /*Agregar el mail a la lista de suscripción del artista*/
-            console.log("Suscripción exitosa");
-            suscriptionMap.prototype.set(req.body.artistId, req.body.email)
             res.status(200);
+            /*Agregar el mail a la lista de suscripción del artista*/
+            suscriptionMap.prototype.set(req.body.artistId, req.body.email)
+            res.json({message: `Suscripción exitosa de ${req.body.email}`});
+            
+            
             
             }
         else {
@@ -53,8 +55,9 @@ router.post("/api/unsubscribe",(req,res,next) => {
         if (true) /*Artista existe*/{
             
             /*Quitar el mail de la lista de suscripción del artista*/
-            console.log("Desuscripción exitosa");
             res.status(200);
+            res.json({message: "Desuscripción exitosa"});
+            
             
             }
         else {
@@ -72,9 +75,10 @@ router.post("/api/notify",(req,res,next) => {
 
     if (req.body.artistId && req.body.subject && req.body.message ){  /*Los argumentos están correctos*/
          
-            console.log("Notificación de álbum agregado exitosa");
+         	res.status(200);
+            res.json({message: "Notificación de álbum agregado exitosa"});
             /*enviar mail a los interesados en el artista*/
-            res.status(200);
+            
              
     }
     else{
@@ -90,7 +94,7 @@ router.get("/api/subscriptions:artistId",(req,res,next) => {
         if (true) /*Artista existe*/{
             
             /*Devolver todos los suscriptores de un artista*/
-            console.log("Búsqueda de ", req.body.artistId);
+            res.json({message: `Búsqueda de ${req.body.artistId}`});
             res.status(200);
             res.json({
                 "artistId" : req.body.artistId,
@@ -109,8 +113,8 @@ router.delete("/api/subscriptions",(req,res,next) => {
         if (true) /*Artista existe*/{
             
             /*Devolver todos los suscriptores de un artista*/
-            console.log("Desuscripción exitosa");
-            suscriptionMap.pop(artistId);
+            res.json({message: "Desuscripción exitosa"});
+            //suscriptionMap.pop(artistId);
             res.status(200);
         }
             
