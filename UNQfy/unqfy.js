@@ -1,5 +1,6 @@
 
 const picklify = require('picklify'); // para cargar/guarfar unqfy
+const axios = require('axios');
 const fs = require('fs'); // para cargar/guarfar unqfy
 const Artista = require("./Artista"); //Para crear artistas nuevos
 const Album = require("./Album"); //Para crear y modificar albums nuevos 
@@ -75,7 +76,6 @@ class UNQfy {
         nuevoArtista.id = this.idManager.getIdArtista();
         this.artistas.push(nuevoArtista);
         console.log('Se agregó el artista ', nuevoArtista.name);
-        
         return nuevoArtista;
       }
       else
@@ -93,6 +93,20 @@ class UNQfy {
     const artistToRemove = this.getArtistById(idArtist);
     artistToRemove.albums.forEach((album) => {this.removeAlbum(album.id)})
     this.artistas = this.artistas.filter(artista => artista != artistToRemove);
+     //=====================NEWSLETTER POST==================================//
+
+     const data = {
+      artistId: artistToRemove,
+    
+    };
+
+    axios
+    .DELETE('http://localhost:7000/api/subscriptions', data)
+    .then(response => {
+      console.log("Se envió la notificación de artista eliminado")
+    })
+    .catch(error => console.error(error));
+    //=====================================================================//
     
     
   }
@@ -119,6 +133,23 @@ class UNQfy {
       nuevoArtista.addAlbum(nuevoAlbum);
       this.albums.push(nuevoAlbum);
       console.log('Se agregó el álbum ', nuevoAlbum.name);
+      //=====================NEWSLETTER POST==================================//
+
+      const data = {
+        artistId: nuevoArtista,
+        subject: `Nuevo Album para artsta, ${nuevoArtista.name}` ,
+        message: `Se ha agregado el album ${nuevoAlbum.name} al artista ${nuevoArtista.name}`
+      };
+
+      axios
+      .post('http://localhost:7000/api/subscribe', data)
+      .then(response => {
+        console.log("Se envió la notificación de nuevo álbum")
+      })
+      .catch(error => console.error(error));
+      //=====================================================================//
+
+
       return nuevoAlbum;
     }
     else
