@@ -6,7 +6,7 @@ const ElementNotFound = apiErrors.ElementNotFound
 const RelatedElementNotFound = apiErrors.RelatedElementNotFound
 const InvalidJSON = apiErrors.InvalidJSON
 let bodyParser = require('body-parser')
-let port = process.env.PORT || 8080;
+let port = 8085;
 let router = express.Router();
 const suscriptionMap = new Map();
 
@@ -103,23 +103,20 @@ router.post("/api/notify",(req,res,next) => {
 
 
 
-router.get("/api/subscriptions:artistId",(req,res,next) => {
-
-    if (req.body.artistId ){
+router.get("/api/subscriptions/:artistId",(req,res,next) => 
+    {
         if (true) /*Artista existe*/{
             
-
-            res.json({message: `Búsqueda de ${req.body.artistId}`});
             res.status(200);
             res.json({
-                "artistId" : req.body.artistId,
-                "subscriptors" : suscriptionMap.get(req.body.artistId),
+                'artistId' : artistId,
+                'subscriptors' : `${suscriptionMap.get(req.body.artistId)}`,
             })}   
             
         else { next(new ElementNotFound()) }
     }
-    else{ next(new InvalidJSON())}
-})
+   
+)
 
 
 router.delete("/api/subscriptions",(req,res,next) => {
@@ -137,163 +134,6 @@ router.delete("/api/subscriptions",(req,res,next) => {
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-router.get("/artists/:id",(req,res,next) => {
-    if (unqFy.containsIdArtist(req.params.id)){
-        res.status(200)
-        res.json(unqFy.getArtistById(req.params.id))
-    }
-    else{
-        next(new ElementNotFound())
-    }})
-
-router.put("/artists/:id",(req,res,next) => {
-    if (req.body.name && req.body.country ){
-        if (unqFy.containsIdArtist(req.params.id)){
-            res.status(200) 
-            updatedArtist = unqFy.updateArtist(req.params.id,req.body)
-            res.json(updatedArtist)
-        }
-        else{
-            next(new ElementNotFound())
-        }
-    }
-    else{
-        next(new InvalidJSON())
-    }
-})
-
-router.delete("/artists/:id",(req,res,next) => {
-        
-    if (unqFy.containsIdArtist(req.params.id)){
-        unqFy.removeArtist(req.params.id)
-        res.status(204) 
-        res.send("Artista Eliminado")
-    }
-    else{
-        next(new ElementNotFound())
-    }
-})
-
-router.get("/artists",(req,res) =>{
-    if (req.query.name != undefined){
-    res.status(200)
-    artist = unqFy.getArtistsByName(req.query.name);
-    
-    res.json(artist)
-    }
-    else{
-        res.status(200)
-        res.json(unqFy.getArtistsByName(""))
-    }
-
-})
-
-//==================================================================================================================
-//                                          ENDPOINTS DE ÁLBUMES                                                   =
-//================================================================================================================== 
-
-
-router.post("/albums",(req,res,next) => {
-    if (req.body.name && req.body.year && req.body.artistId !== undefined){
-        
-        if (!unqFy.containsAlbumByName(req.body.name)){
-            if(unqFy.containsIdArtist(req.body.artistId)){
-                res.status(201)
-                res.json(unqFy.addAlbum(req.body))
-            }
-            else{
-                next(new RelatedElementNotFound())
-            }
-        }
-        else{
-            next(new ElementAlreadyExistsError())
-        }
-    }
-    else{
-        next(new InvalidJSON())
-    }
-
-})
-
-router.get("/albums/:id",(req,res,next) => {
-    if (unqFy.containsidAlbum(req.params.id)){
-        res.status(200)
-        res.json(unqFy.getAlbumById(req.params.id))
-    }
-    else{
-        next(new ElementNotFound())
-    }
-})
-
-
-router.patch("/albums/:id",(req,res,next) => {
-    if (req.body.name || req.body.year ){
-        if (unqFy.containsidAlbum(req.params.id)){
-            res.status(200)
-            res.json(unqFy.updateAlbum(req.params.id,req.body))
-        }
-        else{
-            next(new ElementNotFound())
-        }
-    }
-    else{
-        next(new InvalidJSON())
-    }
- 
-})
-
-router.delete("/albums/:id",(req,res,next) => {
-    if (unqFy.containsidAlbum(req.params.id)){
-        res.status(204)
-        unqFy.removeAlbum(req.params.id)
-        res.send("Album Eliminado")
-    }
-    else{
-        next(new ElementNotFound())
-    }
-})
-
-router.get("/albums",(req,res) => {
-    if (req.query.name != undefined){
-        res.status(200)
-        res.json(unqFy.getAlbumsByName(req.query.name))
-    }
-    else{
-        res.status(200)
-        res.json(unqFy.getAlbumsByName(""))
-    }
-})
-
-//==================================================================================================================
-//                                          ENDPOINTS DE TRACKS                                                    =
-//================================================================================================================== 
-
-
-router.get("/tracks/:id/lyrics",(req,res,next)=> {
-    if (unqFy.containsIdTrack(req.params.id)){
-        res.status(200)
-        let lyrics = unqFy.getLyrics(req.params.id)
-        res.json(lyrics)
-    }
-    else{
-        next(new ElementNotFound())
-    }
-})
-
-*/
 
 app.all("*",(req,res,next)=> {
     next(new ElementNotFound())
