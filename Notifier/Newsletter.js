@@ -9,6 +9,7 @@ let bodyParser = require('body-parser')
 let port = 8085;
 let router = express.Router();
 const suscriptionMap = new Map();
+const senderEmail = "j.giulianetti@gmail.com"
 
 app.use(bodyParser.urlencoded({extended : true}))
 app.use(bodyParser.json())
@@ -36,6 +37,19 @@ function deleteSuscriber(artistID, email){
     }
     
 }
+
+function sendMessage(userId, email, callback) {
+    // Using the js-base64 library for encoding:
+    // https://www.npmjs.com/package/js-base64
+    var base64EncodedEmail = Base64.encodeURI(email);
+    var request = gapi.client.gmail.users.messages.send({
+      'userId': userId,
+      'resource': {
+        'raw': base64EncodedEmail
+      }
+    });
+    request.execute(callback);
+  }
 
 
 //==================================================================================================================
@@ -92,7 +106,7 @@ router.post("/api/notify",(req,res,next) => {
          
          	res.status(200);
             res.json({message: "Notificación de álbum agregado exitosa"});
-            /*enviar mail a los interesados en el artista*/
+            //sendMessage(senderEmail, suscriptionMap.get(req.body.artistId ), callback)
             
              
     }
@@ -103,17 +117,16 @@ router.post("/api/notify",(req,res,next) => {
 
 
 
-router.get("/api/subscriptions/:artistId",(req,res,next) => 
-    {
-        if (true) /*Artista existe*/{
+router.get("/api/subscriptions:artistId",(req,res,next) =>  {
+        //if (true) /*Artista existe*/{
             
             res.status(200);
             res.json({
-                'artistId' : artistId,
-                'subscriptors' : `${suscriptionMap.get(req.body.artistId)}`,
-            })}   
+                'artistId' : req.params.artistId,
+                'subscriptors' : `${suscriptionMap.get(req.params.artistId)}`,
+            })//}   
             
-        else { next(new ElementNotFound()) }
+        //else { next(new ElementNotFound()) }
     }
    
 )

@@ -17,7 +17,7 @@ COPY package-lock.json .
 RUN ["npm", "install"]
 
 # Expone el puerto 5000 donde corre la aplicación
-EXPOSE 8085
+EXPOSE 8085 
 
 # Copia los fuentes dentro del container
 COPY Newsletter.js /home/node/newsletter/
