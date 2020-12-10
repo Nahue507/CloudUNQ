@@ -16,14 +16,12 @@ COPY package-lock.json .
 # Ejecuta npm install. Esto produce que se instalen todas las dependencias necearias para correr la aplicación
 RUN ["npm", "install"]
 
-# Expone el puerto 5000 donde corre la aplicación
-EXPOSE 5000 
+# Expone el puerto 8081 donde corre la aplicación
+EXPOSE 8081 
 
 # Copia los fuentes dentro del container
-COPY monitor.js /home/node/monitor
-COPY ErrorsAPI.js /home/node/monitor
-COPY monitormessage.js /home/node/monitor
-COPY ServicesMonitor.js /home/node/monitor
+COPY . /home/node/monitor
+
 
 # Le da permisos al usuario node para escribir en /home/node/my_node_app
 # Como comentario, notar que el comando RUN nos permite ejecutar culquier comando bash valido.
@@ -43,4 +41,4 @@ CMD [ "node", "monitor" ]
 # docker build -t <nombre_de_la_imagen> .
 
 # Para correr el container
-# docker run -p 5000:5000 --name <nombre_container> --user node <nombre_de_la_imagen>
+# docker run -p 8081:8081 --name <nombre_container> --user node <nombre_de_la_imagen>

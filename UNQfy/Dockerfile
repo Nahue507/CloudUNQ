@@ -7,7 +7,7 @@ ENV NODE_ENV=development
 ENV DEBUG=true
 
 # Crea un directorio y nos movemos ahí
-WORKDIR /home/node/newsletter
+WORKDIR /home/node/UNQfy
 
 # Copia el package.json package-lock.json en /home/node/my_node_app
 COPY package.json .
@@ -16,12 +16,11 @@ COPY package-lock.json .
 # Ejecuta npm install. Esto produce que se instalen todas las dependencias necearias para correr la aplicación
 RUN ["npm", "install"]
 
-# Expone el puerto 8085 donde corre la aplicación
-EXPOSE 8085 
+# Expone el puerto 8080 donde corre la aplicación
+EXPOSE 8080 
 
 # Copia los fuentes dentro del container
-COPY . /home/node/newsletter/
-
+COPY . /home/node/UNQfy
 
 # Le da permisos al usuario node para escribir en /home/node/my_node_app
 # Como comentario, notar que el comando RUN nos permite ejecutar culquier comando bash valido.
@@ -32,7 +31,7 @@ USER node
 
 # Comando por defecto sino se provee uno al hacer docker run
 # El comando corre el servicio
-CMD [ "node", "Newsletter" ]
+CMD [ "node", "]UNQFYApiRest"]
 
 # LISTO!
 
@@ -41,4 +40,4 @@ CMD [ "node", "Newsletter" ]
 # docker build -t <nombre_de_la_imagen> .
 
 # Para correr el container
-# docker run -p 8085:8085 --name <nombre_container> --user node <nombre_de_la_imagen>
+# docker run -p 8080:8080 --name <nombre_container> --user node <nombre_de_la_imagen>

@@ -8,16 +8,15 @@ const ServicesMonitor = require('./ServicesMonitor');
 const apiErrors = require("./ErrorsAPI");
 
 const bodyParser = require('body-parser');
-const port = process.env.PORT || 5000;
+const port = 8081;
 const router = express.Router();
 const rp = require('request-promise');
 
 
 //ENDPOINTS A VERIFICAR
-//CREO que son los ends correctos
-const unqfyURL = 'http://localhost:5001/api/status';
-const loggingURL = 'http://localhost:5003/logging/status';
-const notificationURL = 'http://localhost:5002/api/status';
+const unqfyURL = 'http://localhost:8080/api/status';
+const loggingURL = 'http://localhost:8083/logging/status';
+const notificationURL = 'http://localhost:8085/api/status';
 
 //HEADER PARA LOS ENDPOINT
 const options = function(_url) {

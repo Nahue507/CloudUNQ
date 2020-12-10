@@ -16,14 +16,12 @@ COPY package-lock.json .
 # Ejecuta npm install. Esto produce que se instalen todas las dependencias necearias para correr la aplicación
 RUN ["npm", "install"]
 
-# Expone el puerto 5000 donde corre la aplicación
-EXPOSE 5000 
+# Expone el puerto 8083 donde corre la aplicación
+EXPOSE 8083 
 
 # Copia los fuentes dentro del container
-COPY monitor.js /home/node/logger
-COPY ErrorsAPI.js /home/node/logger
-COPY monitormessage.js /home/node/logger
-COPY ServicesMonitor.js /home/node/logger
+COPY . /home/node/logger
+
 
 # Le da permisos al usuario node para escribir en /home/node/my_node_app
 # Como comentario, notar que el comando RUN nos permite ejecutar culquier comando bash valido.
@@ -43,4 +41,4 @@ CMD [ "node", "loggingApiRest"]
 # docker build -t <nombre_de_la_imagen> .
 
 # Para correr el container
-# docker run -p 5000:5000 --name <nombre_container> --user node <nombre_de_la_imagen>
+# docker run -p 8083:8083 --name <nombre_container> --user node <nombre_de_la_imagen>

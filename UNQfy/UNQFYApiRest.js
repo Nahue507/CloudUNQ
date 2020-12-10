@@ -7,7 +7,7 @@ const ElementNotFound = apiErrors.ElementNotFound
 const RelatedElementNotFound = apiErrors.RelatedElementNotFound
 const InvalidJSON = apiErrors.InvalidJSON
 let bodyParser = require('body-parser')
-let port = process.env.PORT || 8080;
+let port = 8080;
 let router = express.Router();
 
 app.use(bodyParser.urlencoded({extended : true}))
