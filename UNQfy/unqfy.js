@@ -11,6 +11,7 @@ const IdManager = require("./IdManager");//Manager de ids
 const Usuario = require("./Usuario"); 
 const spotifyConnector = require('./spotifyConnector'); // Gestor de la conexión a Spotify
 const musicMatchConnector = require('./musicMatchConnector'); // Gestor de la conexión a MusicMatch
+const NEWSLETTER_API_HOST = "http://172.20.0.10:8085";
 
 
 
@@ -92,7 +93,7 @@ class UNQfy {
 
     const data = { artistId: artistToRemove, };
     axios
-    .delete('http://localhost:8085/api/subscriptions', data)
+    .delete(`${NEWSLETTER_API_HOST}/api/subscriptions`, data)
     .then(response => {
       
     })
@@ -127,13 +128,13 @@ class UNQfy {
       //=====================NEWSLETTER POST==================================//
 
       const data = {
-        artistId: nuevoArtista,
+        artistId: nuevoArtista.id,
         subject: `Nuevo Album para artsta, ${nuevoArtista.name}` ,
         message: `Se ha agregado el album ${nuevoAlbum.name} al artista ${nuevoArtista.name}`
       };
 
       axios
-      .post('http://localhost:8085/api/notify', data)
+      .post(`${NEWSLETTER_API_HOST}/api/notify`, data)
       .then(response => {
         console.log("Notificación de nuevo álbum enviada")
       })

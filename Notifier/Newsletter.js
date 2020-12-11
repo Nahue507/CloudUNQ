@@ -6,6 +6,8 @@ const ElementAlreadyExistsError = apiErrors.ElementAlreadyExistsError
 const ElementNotFound = apiErrors.ElementNotFound
 const RelatedElementNotFound = apiErrors.RelatedElementNotFound
 const InvalidJSON = apiErrors.InvalidJSON
+const email = require ("./EmailHandler")
+const UNQFY_API_HOST = "http://172.20.0.20:8080";
 let bodyParser = require('body-parser')
 let port = 8085;
 let router = express.Router();
@@ -41,7 +43,7 @@ function deleteSuscriber(artistID, email){
 
 function artistExists(artistId){
     
-    return rp.get(`http://localhost:8080/api/artists/${artistId}`).then((res) => {
+    return rp.get(`${UNQFY_API_HOST}/api/artists/${artistId}`).then((res) => {
         return res.id === artistId;
     }).catch(error => {console.log(error.message)
     throw new apiErrors.RelatedElementNotFound})
@@ -98,7 +100,6 @@ router.post("/api/unsubscribe",(req,res,next) => {
 })
 
 
-
 router.post("/api/notify",(req,res,next) => {
 
     if (req.body.artistId && req.body.subject && req.body.message ){  /*Los argumentos están correctos*/
@@ -109,7 +110,8 @@ router.post("/api/notify",(req,res,next) => {
             console.log(req.body.message)
             
             console.log("Botificación de nuevo álbum recibida")
-            //sendMessage(senderEmail, suscriptionMap.get(req.body.artistId ), callback)
+            let mailer = new email.EmailHandler();
+            mailer.sendEmails(req.body.artistId, req.body.subject, req.body.message)
             
              
     }
@@ -117,7 +119,6 @@ router.post("/api/notify",(req,res,next) => {
         next(new InvalidJSON())
     }
 })
-
 
 
 router.get("/api/subscriptions:artistId",(req,res,next) =>  {
@@ -140,7 +141,7 @@ router.delete("/api/subscriptions",(req,res,next) => {
     if (req.body.artistId ){
         if (artistExists(req.body.artistId )) {
             
-            res.json({message: ""});
+            suscriptionMap.delete(req.body.artistId );
             res.status(200);
         }
             
