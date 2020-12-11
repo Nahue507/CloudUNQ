@@ -12,18 +12,19 @@ app.use('/monitor', router);
 
 let monitoreoActivo = true;
 
-var currentunqNotification = {Value: true};
-var currentloggerNotification = {Value: true};
-var currentnewsletterNotification = {Value: true};
+let currentunqNotification = {value:true};
+let currentloggerNotification = {value:true};
+let currentnewsletterNotification = {value:true};
 
-var priorunqNotification = {Value: null};
-var priorloggerNotification = {Value: null};
-var priornewsletterNotification = {Value: null};
+let priorunqNotification = {value:null};
+let priorloggerNotification = {value:null};
+let priornewsletterNotification = {value:null};
 
-function statusChanger(obj, newValue)
-{
-    obj.Value = newValue
-}
+function statusChanger(varObj, newValue) { 
+    
+    varObj.value = newValue; 
+    
+  } 
 
 function incidentTime(){
     let date_ob = new Date();
@@ -42,15 +43,7 @@ function incidentTime(){
 const notificarPorDiscord = function(service, status) { 
     
     const url = "https://discord.com/api/webhooks/783468497522262017/wUugIlByGRm7blxJbw044et07Jvx7Md18UP2VDCar3BIMUGWdAddNy7-iZhlfY3Aoblk";
-    //Esto. Estaria de mas. 
-    const data = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({"content": `[${incidentTime()}] ${service} ${status}`})
-        
-    }
+   
 
       axios
       .post(url, {
@@ -78,6 +71,7 @@ router.get("/activate", (req,res,next) => {
 
 function poll(serviceName, url, currentNotification, priorNotification) {
     
+    
 
     axios.post(url).then(res => {
                 
@@ -85,8 +79,9 @@ function poll(serviceName, url, currentNotification, priorNotification) {
             
             statusChanger(currentNotification, true)
             
-            if (currentNotification.value=!priorNotification.value){
-                notificarPorDiscord(serviceName, "está activo");
+            if ( !(currentNotification.value===priorNotification.value) ){
+                //notificarPorDiscord(serviceName, "está activo");
+                console.log("activo notificaciones prior y current", priorNotification.value, currentNotification.value)
                 statusChanger(priorNotification, currentNotification.value)
                 statusChanger(currentNotification, true)
             }
@@ -94,9 +89,10 @@ function poll(serviceName, url, currentNotification, priorNotification) {
     }).catch( error => {
 
         statusChanger(currentNotification, false)
-        if (currentNotification.vlue=!priorNotification.value){
+        if ( !(currentNotification.value===priorNotification.value) ){
             
-            notificarPorDiscord(serviceName, "está inactivo");
+            //notificarPorDiscord(serviceName, "está inactivo");
+            console.log("inactivo notificaciones prior y current", priorNotification.value, currentNotification.value)
             statusChanger(priorNotification, currentNotification.value)
             statusChanger(currentNotification, false)
         }
@@ -106,6 +102,7 @@ function poll(serviceName, url, currentNotification, priorNotification) {
 const checkAllStatus = function(){
     if (monitoreoActivo){
         console.log("Polling")
+        
         poll("UNQfy", 'http://172.20.0.20:8080/api/isAlive', currentunqNotification, priorunqNotification);
         poll("Logger", 'http://172.20.0.30:8083/logging/isAlive', currentloggerNotification, priorloggerNotification);
         poll("Newsletter", 'http://172.20.0.10:8085/api/isAlive', currentnewsletterNotification, priornewsletterNotification);
