@@ -41,18 +41,20 @@ function incidentTime(){
 
 const notificarPorDiscord = function(service, status) { 
     
-    const url = 'https://discord.com/api/webhooks/783468497522262017/wUugIlByGRm7blxJbw044et07Jvx7Md18UP2VDCar3BIMUGWdAddNy7-iZhlfY3Aoblk';
-    
+    const url = "https://discord.com/api/webhooks/783468497522262017/wUugIlByGRm7blxJbw044et07Jvx7Md18UP2VDCar3BIMUGWdAddNy7-iZhlfY3Aoblk";
+    //Esto. Estaria de mas. 
     const data = {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({"content": `[${incidentTime()}] ${service} ${status}`})
+        
     }
 
       axios
-      .post(url, data)
+      .post(url, {
+        "content": `[${incidentTime()}] ${service} ${status}`})
       .then(res => {
         console.log("Notificación enviada a discord")
       })
