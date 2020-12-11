@@ -1,4 +1,4 @@
-const LoggingConsumerMod = require('../Logger/consumerLog')
+const LoggingConsumerMod = require('./consumerLog')
 const LoggingConsumer = LoggingConsumerMod.LoggingConsumer
 
 
