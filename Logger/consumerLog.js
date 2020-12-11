@@ -23,7 +23,7 @@ class LoggingConsumer {
         rp.post(url + 'logging/error/',{json:{mensaje: error.message}})
     }
     NotificarDebug(debug){
-        rp.post(url + 'logging/error/',{json:{mensaje: debug.message}})
+        rp.post(url + 'logging/debug/',{json:{mensaje: debug.message}})
     }
 
     
