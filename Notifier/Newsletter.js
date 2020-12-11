@@ -1,6 +1,7 @@
 let express = require('express')
 let app = express()
 let apiErrors = require("./ErrorsAPI")
+const rp = require ('request-promise');
 const ElementAlreadyExistsError = apiErrors.ElementAlreadyExistsError
 const ElementNotFound = apiErrors.ElementNotFound
 const RelatedElementNotFound = apiErrors.RelatedElementNotFound
@@ -38,18 +39,16 @@ function deleteSuscriber(artistID, email){
     
 }
 
-function sendMessage(userId, email, callback) {
-    // Using the js-base64 library for encoding:
-    // https://www.npmjs.com/package/js-base64
-    var base64EncodedEmail = Base64.encodeURI(email);
-    var request = gapi.client.gmail.users.messages.send({
-      'userId': userId,
-      'resource': {
-        'raw': base64EncodedEmail
-      }
-    });
-    request.execute(callback);
-  }
+function artistExists(artistId){
+    
+    return rp.get(`http://localhost:8080/api/artists/${artistId}`).then((res) => {
+        return res.id === artistId;
+    }).catch(error => {console.log(error.message)
+    throw new apiErrors.RelatedElementNotFound})
+}
+
+
+
 
 
 //==================================================================================================================
@@ -60,7 +59,7 @@ function sendMessage(userId, email, callback) {
 router.post('/api/subscribe', function(req,res,next){
 
     if (req.body.artistId && req.body.email ){
-        if (true) /*Artista existe*/{
+        if (artistExists(req.body.artistId)) {
             
             addSuscriber(req.body.artistId, req.body.email)            
             res.status(200);
@@ -80,7 +79,7 @@ router.post('/api/subscribe', function(req,res,next){
 router.post("/api/unsubscribe",(req,res,next) => {
 
     if (req.body.artistId && req.body.email ){
-        if (true) /*Artista existe*/{
+        if (artistExists(req.body.artistId )) {
             
             
             deleteSuscriber(req.body.artistId, req.body.email)
@@ -104,8 +103,12 @@ router.post("/api/notify",(req,res,next) => {
 
     if (req.body.artistId && req.body.subject && req.body.message ){  /*Los argumentos están correctos*/
          
-         	res.status(200);
-            res.json({message: "Notificación de álbum agregado exitosa"});
+            res.status(200);
+            
+            console.log(req.body.subject)
+            console.log(req.body.message)
+            
+            console.log("Botificación de nuevo álbum recibida")
             //sendMessage(senderEmail, suscriptionMap.get(req.body.artistId ), callback)
             
              
@@ -118,15 +121,15 @@ router.post("/api/notify",(req,res,next) => {
 
 
 router.get("/api/subscriptions:artistId",(req,res,next) =>  {
-        //if (true) /*Artista existe*/{
+        if (artistExists(req.body.artistId )) {
             
             res.status(200);
             res.json({
                 'artistId' : req.params.artistId,
                 'subscriptors' : `${suscriptionMap.get(req.params.artistId)}`,
-            })//}   
+            })}   
             
-        //else { next(new ElementNotFound()) }
+        else { next(new ElementNotFound()) }
     }
    
 )
@@ -135,7 +138,7 @@ router.get("/api/subscriptions:artistId",(req,res,next) =>  {
 router.delete("/api/subscriptions",(req,res,next) => {
 
     if (req.body.artistId ){
-        if (true) /*Artista existe*/{
+        if (artistExists(req.body.artistId )) {
             
             res.json({message: ""});
             res.status(200);
