@@ -1,5 +1,3 @@
-
-
 const express = require('express')
 const app = express();
 const MonitorMessage = require('./monitormessage');
@@ -35,7 +33,7 @@ const notificarViaDiscord = function(service) { //notifico por Discord
     var payload = {"text": new MonitorMessage.MonitorMessage(service).Notify()}
     payload = JSON.stringify(payload);
 
-    rp.post({url: url, body: payload})
+    rp.post({uri:url, body: {"content": payload}})
     .then(resp => {
         console.log("Enviada notificacion al canal de Discord");
     })
