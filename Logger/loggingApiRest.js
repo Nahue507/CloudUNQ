@@ -53,7 +53,12 @@ router.post('/error',(req,res,next)=> {
     WriteFile(logg + '\n')
     res.json(logg)
 })
-
+router.post('/debug',(req,res,next)=> {
+    const logg = req.body.mensaje + ' {debug}'
+    loggly.NotificarDebug(logg)
+    WriteFile(logg + '\n')
+    res.json(logg)
+})
 router.get('/isAlive', (req,res,next) => {
     
     res.status(200)

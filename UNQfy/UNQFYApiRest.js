@@ -6,6 +6,9 @@ const ElementAlreadyExistsError = apiErrors.ElementAlreadyExistsError
 const ElementNotFound = apiErrors.ElementNotFound
 const RelatedElementNotFound = apiErrors.RelatedElementNotFound
 const InvalidJSON = apiErrors.InvalidJSON
+const NotificadorMod = require('./NotificadorLog')
+const Notificador = NotificadorMod.NotificadorLog
+const notificador = new Notificador()
 let bodyParser = require('body-parser')
 let port = 8080;
 let router = express.Router();
@@ -37,9 +40,12 @@ router.post("/artists",(req,res,next) => {
                 "name" : artist.name,
                 "albums" : artist.albums,
                 "country" : artist.country})
+                notificador.NotificarElementoAgregado(artist)
             }
         else {
-            next(new ElementAlreadyExistsError())
+            let error = new ElementAlreadyExistsError();
+            notificador.NotificarError(error)
+            next(error)
         }
     }
     else{
@@ -77,11 +83,16 @@ router.delete("/artists/:id",(req,res,next) => {
         
     if (unqFy.containsIdArtist(req.params.id)){
         unqFy.removeArtist(req.params.id)
+        let artist = unqFy.getArtistById(req.params.id)
+        notificador.NotificarElementoEliminado(artist)
         res.status(204) 
         res.send("Artista Eliminado")
+
     }
     else{
-        next(new ElementNotFound())
+        let error = (new ElementNotFound())
+        notificador.NotificarError(error)
+        next(error)
     }
 })
 
@@ -111,13 +122,19 @@ router.post("/albums",(req,res,next) => {
             if(unqFy.containsIdArtist(req.body.artistId)){
                 res.status(201)
                 res.json(unqFy.addAlbum(req.body))
+                let album = unqFy.getAlbumsByName(req.body.name)
+                notificador.NotificarElementoAgregado(album) 
             }
             else{
-                next(new RelatedElementNotFound())
+                let error = new RelatedElementNotFound()
+                notificador.NotificarError(error)
+                next(error)
             }
         }
         else{
-            next(new ElementAlreadyExistsError())
+            let error = new ElementAlreadyExistsError()
+            notificador.NotificarError(error)
+            next(error)
         }
     }
     else{
@@ -142,9 +159,14 @@ router.patch("/albums/:id",(req,res,next) => {
         if (unqFy.containsidAlbum(req.params.id)){
             res.status(200)
             res.json(unqFy.updateAlbum(req.params.id,req.body))
+            let album = unqFy.getAlbumById(req.params.id)
+            notificador.NotificarElementoAgregado(album)
+            
         }
         else{
-            next(new ElementNotFound())
+            let error =new ElementNotFound()
+            notificador.NotificarError(error)
+            next(error)
         }
     }
     else{
@@ -158,9 +180,13 @@ router.delete("/albums/:id",(req,res,next) => {
         res.status(204)
         unqFy.removeAlbum(req.params.id)
         res.send("Album Eliminado")
+        let album = unqFy.getAlbumById(req.params.id)
+        notificador.NotificarElementoEliminado(album)
     }
     else{
-        next(new ElementNotFound())
+        let error = new ElementNotFound()
+        notificador.NotificarError(error)
+        next(error)
     }
 })
 
@@ -187,7 +213,9 @@ router.get("/tracks/:id/lyrics",(req,res,next)=> {
         res.json(lyrics)
     }
     else{
-        next(new ElementNotFound())
+        let error =new ElementNotFound()
+        notificador.NotificarError(error)
+        next(error)
     }
 })
 

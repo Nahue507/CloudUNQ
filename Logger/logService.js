@@ -19,8 +19,12 @@ function NotificarError(logg){
 function NotificarWarning(logg){
     winston.warn(logg)
 }
+function NotificarDebug(logg){
+    winston.debug(logg)
+}
 module.exports ={
     NotificarInfo,
     NotificarError,
-    NotificarWarning
+    NotificarWarning,
+    NotificarDebug
 }

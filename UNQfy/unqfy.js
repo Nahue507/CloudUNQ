@@ -11,6 +11,7 @@ const IdManager = require("./IdManager");//Manager de ids
 const Usuario = require("./Usuario"); 
 const spotifyConnector = require('./spotifyConnector'); // Gestor de la conexión a Spotify
 const musicMatchConnector = require('./musicMatchConnector'); // Gestor de la conexión a MusicMatch
+
 const NEWSLETTER_API_HOST = "http://172.20.0.10:8085";
 
 
