@@ -84,8 +84,8 @@ router.delete("/artists/:id",(req,res,next) => {
     if (unqFy.containsIdArtist(req.params.id)){
         unqFy.removeArtist(req.params.id)
         let artist = unqFy.getArtistById(req.params.id)
-        notificador.NotificarElementoEliminado(artist)
         res.status(204) 
+        notificador.NotificarElementoEliminado(artist)
         res.send("Artista Eliminado")
 
     }

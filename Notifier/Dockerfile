@@ -20,7 +20,17 @@ RUN ["npm", "install"]
 EXPOSE 8085 
 
 # Copia los fuentes dentro del container
-COPY . /home/node/newsletter/
+
+COPY credentials.json /home/node/newsletter/
+COPY EmailHandler.js /home/node/newsletter/
+COPY ErrorsAPI.js /home/node/newsletter/
+COPY gmailClient.js /home/node/newsletter/
+COPY gmail_tools/ /home/node/newsletter/
+COPY index.js /home/node/newsletter/
+COPY Newsletter.js /home/node/newsletter/
+COPY package.json /home/node/newsletter/
+COPY package-lock.json /home/node/newsletter/
+COPY token.json /home/node/newsletter/
 
 
 # Le da permisos al usuario node para escribir en /home/node/my_node_app

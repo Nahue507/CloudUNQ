@@ -73,17 +73,18 @@ function poll(serviceName, url, currentNotification, priorNotification) {
     
     
 
-    axios.post(url).then(res => {
+    axios.get(url).then(res => {
                 
-        if (res.status ===200){
+        
+        if (res.status ==200){
             
             statusChanger(currentNotification, true)
             
             if ( !(currentNotification.value===priorNotification.value) ){
-                //notificarPorDiscord(serviceName, "está activo");
-                console.log("activo notificaciones prior y current", priorNotification.value, currentNotification.value)
-                statusChanger(priorNotification, currentNotification.value)
-                statusChanger(currentNotification, true)
+                notificarPorDiscord(serviceName, "está activo");
+                console.log(serviceName, "está activo" );
+                statusChanger(priorNotification, currentNotification.value);
+                statusChanger(currentNotification, true);
             }
         }
     }).catch( error => {
@@ -91,10 +92,10 @@ function poll(serviceName, url, currentNotification, priorNotification) {
         statusChanger(currentNotification, false)
         if ( !(currentNotification.value===priorNotification.value) ){
             
-            //notificarPorDiscord(serviceName, "está inactivo");
-            console.log("inactivo notificaciones prior y current", priorNotification.value, currentNotification.value)
-            statusChanger(priorNotification, currentNotification.value)
-            statusChanger(currentNotification, false)
+            notificarPorDiscord(serviceName, "está inactivo");
+            console.log(serviceName, "está inactivo" );
+            statusChanger(priorNotification, currentNotification.value);
+            statusChanger(currentNotification, false);
         }
     })
 }
