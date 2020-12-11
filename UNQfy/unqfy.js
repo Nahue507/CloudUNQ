@@ -136,7 +136,6 @@ class UNQfy {
       .post('http://localhost:8085/api/notify', data)
       .then(response => {
         console.log("Notificación de nuevo álbum enviada")
-        console.log(response.message)
       })
       .catch(error => console.error(error));
       //=====================================================================//

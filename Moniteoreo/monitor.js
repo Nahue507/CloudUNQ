@@ -1,22 +1,21 @@
-
-
 const express = require('express')
 const app = express();
 const MonitorMessage = require('./monitormessage');
 const ServicesMonitor = require('./ServicesMonitor');
 
-const apiErrors = require("./ErrorsAPI");
+const apiErrors = require("../ApiErrors");
 
 const bodyParser = require('body-parser');
-const port = 8081;
+const port = process.env.PORT || 5000;
 const router = express.Router();
 const rp = require('request-promise');
 
 
 //ENDPOINTS A VERIFICAR
-const unqfyURL = 'http://localhost:8080/api/status';
-const loggingURL = 'http://localhost:8083/logging/status';
-const notificationURL = 'http://localhost:8085/api/status';
+//CREO que son los ends correctos
+const unqfyURL = 'http://localhost:5001/api/status';
+const loggingURL = 'http://localhost:5003/logging/status';
+const notificationURL = 'http://localhost:5002/api/status';
 
 //HEADER PARA LOS ENDPOINT
 const options = function(_url) {
@@ -28,13 +27,12 @@ const options = function(_url) {
     json: true,
     }
 }
-
 const notificarViaDiscord = function(service) { //notifico por Discord
     const url = 'https://discord.com/api/webhooks/783468497522262017/wUugIlByGRm7blxJbw044et07Jvx7Md18UP2VDCar3BIMUGWdAddNy7-iZhlfY3Aoblk';
     var payload = {"text": new MonitorMessage.MonitorMessage(service).Notify()}
     payload = JSON.stringify(payload);
 
-    rp.post({url: url, body: payload})
+    rp.post({uri:url, body: {"content": payload}})
     .then(resp => {
         console.log("Enviada notificacion al canal de Discord");
     })
