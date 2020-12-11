@@ -51,8 +51,6 @@ function artistExists(artistId){
 
 
 
-
-
 //==================================================================================================================
 //                                          ENDPOINTS DE SUSCRIPCIÖN                                               =
 //================================================================================================================== 
@@ -122,18 +120,20 @@ router.post("/api/notify",(req,res,next) => {
 
 
 router.get("/api/subscriptions:artistId",(req,res,next) =>  {
-        if (artistExists(req.body.artistId )) {
-            
-            res.status(200);
-            res.json({
-                'artistId' : req.params.artistId,
-                'subscriptors' : `${suscriptionMap.get(req.params.artistId)}`,
-            })}   
-            
-        else { next(new ElementNotFound()) }
+    if (artistExists(req.body.artistId )) {
+        
+        res.status(200);
+        res.json({
+            'artistId' : req.params.artistId,
+            'subscriptors' : `${suscriptionMap.get(req.params.artistId)}`,
+        })}   
+        
+    else { next(new ElementNotFound()) }
     }
    
 )
+
+router.get("/api/isAlive",(req,res,next) =>  {res.status(200);})
 
 
 router.delete("/api/subscriptions",(req,res,next) => {

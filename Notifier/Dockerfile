@@ -38,7 +38,7 @@ CMD [ "node", "Newsletter" ]
 
 
 # Para construir la imagen
-# docker build -t <nombre_de_la_imagen> .
+# docker build -t newsletter .
 
 # Para correr el container
-# docker run -p 8085:8085 --name <nombre_container> --user node <nombre_de_la_imagen>
+# docker run --net unqfynet --ip 172.20.0.10 -p 8085:8085 --user node newsletter

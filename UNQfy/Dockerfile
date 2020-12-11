@@ -57,7 +57,10 @@ CMD [ "node", "UNQFYApiRest"]
 
 
 # Para construir la imagen
-# docker build -t <nombre_de_la_imagen> .
+# docker build -t unqfy .
+
+# Para crear la red de docker 
+# docker network create --subnet=172.20.0.0/16 unqfynet
 
 # Para correr el container
-# docker run -p 8080:8080 --name <nombre_container> --user node <nombre_de_la_imagen>
+# docker run --net unqfynet --ip 172.20.0.20 -p 8080:8080 --user node unqfy
