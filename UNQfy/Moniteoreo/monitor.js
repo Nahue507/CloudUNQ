@@ -27,7 +27,6 @@ const options = function(_url) {
     json: true,
     }
 }
-
 const notificarViaDiscord = function(service) { //notifico por Discord
     const url = 'https://discord.com/api/webhooks/783468497522262017/wUugIlByGRm7blxJbw044et07Jvx7Md18UP2VDCar3BIMUGWdAddNy7-iZhlfY3Aoblk';
     var payload = {"text": new MonitorMessage.MonitorMessage(service).Notify()}
