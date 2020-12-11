@@ -2,6 +2,7 @@
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const axios = require('axios');
 const fs = require('fs'); // para cargar/guarfar unqfy
+const rp = require ('request-promise');
 const Artista = require("./Artista"); //Para crear artistas nuevos
 const Album = require("./Album"); //Para crear y modificar albums nuevos 
 const Playlist = require("./Playlist");//Para crear y modificar playlist nuevas  
@@ -10,12 +11,6 @@ const IdManager = require("./IdManager");//Manager de ids
 const Usuario = require("./Usuario"); 
 const spotifyConnector = require('./spotifyConnector'); // Gestor de la conexión a Spotify
 const musicMatchConnector = require('./musicMatchConnector'); // Gestor de la conexión a MusicMatch
-
-
-
-
-
-
 
 
 
@@ -97,7 +92,7 @@ class UNQfy {
 
     const data = { artistId: artistToRemove, };
     axios
-    .delete('http://localhost:8080/api/subscriptions', data)
+    .delete('http://localhost:8085/api/subscriptions', data)
     .then(response => {
       
     })
@@ -138,9 +133,10 @@ class UNQfy {
       };
 
       axios
-      .post('http://localhost:8080/api/notify', data)
+      .post('http://localhost:8085/api/notify', data)
       .then(response => {
-        
+        console.log("Notificación de nuevo álbum enviada")
+        console.log(response.message)
       })
       .catch(error => console.error(error));
       //=====================================================================//
