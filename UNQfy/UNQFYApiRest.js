@@ -192,7 +192,15 @@ router.get("/tracks/:id/lyrics",(req,res,next)=> {
 })
 
 
-router.get("/isAlive",(req,res,next) =>  {res.status(200);})
+
+router.get("/isAlive",(req,res,next)=> {
+    
+        res.status(200)
+        res.json("OK")
+    
+    
+})
+
 app.all("*",(req,res,next)=> {next(new ElementNotFound())})
 
 function errorHandler(err,req,res,next){

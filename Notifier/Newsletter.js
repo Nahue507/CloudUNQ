@@ -133,7 +133,13 @@ router.get("/api/subscriptions:artistId",(req,res,next) =>  {
    
 )
 
-router.get("/api/isAlive",(req,res,next) =>  {res.status(200);})
+router.get("/api/isAlive",(req,res,next) =>  {
+    
+    res.status(200)
+    res.json("OK")
+
+
+})
 
 
 router.delete("/api/subscriptions",(req,res,next) => {

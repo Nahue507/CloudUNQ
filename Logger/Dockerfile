@@ -7,7 +7,7 @@ ENV NODE_ENV=development
 ENV DEBUG=true
 
 # Crea un directorio y nos movemos ahí
-WORKDIR /home/node/Logger
+WORKDIR /home/node/logger
 
 # Copia el package.json package-lock.json en /home/node/my_node_app
 COPY package.json .
@@ -20,7 +20,11 @@ RUN ["npm", "install"]
 EXPOSE 8083 
 
 # Copia los fuentes dentro del container
-COPY . /home/node/logger
+COPY ErrorsAPI.js /home/node/logger/
+COPY loggingApiRest.js /home/node/logger/
+COPY logService.js /home/node/logger/
+COPY package.json /home/node/logger/
+COPY package-lock.json /home/node/logger/
 
 
 # Le da permisos al usuario node para escribir en /home/node/my_node_app
@@ -38,7 +42,10 @@ CMD [ "node", "loggingApiRest"]
 
 
 # Para construir la imagen
-# docker build -t <nombre_de_la_imagen> .
+# docker build -t logger .
+
+# Para armar la red docker
+# sudo docker network create --subnet=172.20.0.0/16 unqfynet
 
 # Para correr el container
-# docker run -p 8083:8083 --name <nombre_container> --user node <nombre_de_la_imagen>
+# docker run --net unqfynet --ip 172.20.0.30 -p 8083:8083 --user node logger
