@@ -38,7 +38,7 @@ CMD [ "node", "monitor" ]
 
 
 # Para construir la imagen
-# docker build -t <nombre_de_la_imagen> .
+# docker build -t monitor .
 
 # Para correr el container
-# docker run -p 8081:8081 --name <nombre_container> --user node <nombre_de_la_imagen>
+# docker run --net unqfynet --ip 172.20.0.40 -p 8081:8081 --user node monitor
