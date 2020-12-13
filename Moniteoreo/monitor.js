@@ -80,7 +80,7 @@ function poll(serviceName, url, currentNotification, priorNotification) {
             statusChanger(currentNotification, true)
             
             if ( !(currentNotification.value===priorNotification.value) ){
-                //notificarPorDiscord(serviceName, "está activo");
+                notificarPorDiscord(serviceName, "está activo");
                 console.log("activo notificaciones prior y current", priorNotification.value, currentNotification.value)
                 statusChanger(priorNotification, currentNotification.value)
                 statusChanger(currentNotification, true)
@@ -91,7 +91,7 @@ function poll(serviceName, url, currentNotification, priorNotification) {
         statusChanger(currentNotification, false)
         if ( !(currentNotification.value===priorNotification.value) ){
             
-            //notificarPorDiscord(serviceName, "está inactivo");
+            notificarPorDiscord(serviceName, "está inactivo");
             console.log("inactivo notificaciones prior y current", priorNotification.value, currentNotification.value)
             statusChanger(priorNotification, currentNotification.value)
             statusChanger(currentNotification, false)
@@ -100,6 +100,7 @@ function poll(serviceName, url, currentNotification, priorNotification) {
 }
 
 const checkAllStatus = function(){
+    //Strings Ojo.
     if (monitoreoActivo){
         console.log("Polling")
         

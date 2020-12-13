@@ -6,9 +6,6 @@ const ElementAlreadyExistsError = apiErrors.ElementAlreadyExistsError
 const ElementNotFound = apiErrors.ElementNotFound
 const RelatedElementNotFound = apiErrors.RelatedElementNotFound
 const InvalidJSON = apiErrors.InvalidJSON
-const NotificadorMod = require('./NotificadorLog')
-const Notificador = NotificadorMod.NotificadorLog
-const notificador = new Notificador()
 let bodyParser = require('body-parser')
 let port = 8080;
 let router = express.Router();
@@ -40,11 +37,9 @@ router.post("/artists",(req,res,next) => {
                 "name" : artist.name,
                 "albums" : artist.albums,
                 "country" : artist.country})
-                notificador.NotificarElementoAgregado(artist)
             }
         else {
             let error = new ElementAlreadyExistsError();
-            notificador.NotificarError(error)
             next(error)
         }
     }
@@ -84,14 +79,12 @@ router.delete("/artists/:id",(req,res,next) => {
     if (unqFy.containsIdArtist(req.params.id)){
         unqFy.removeArtist(req.params.id)
         let artist = unqFy.getArtistById(req.params.id)
-        notificador.NotificarElementoEliminado(artist)
         res.status(204) 
         res.send("Artista Eliminado")
 
     }
     else{
         let error = (new ElementNotFound())
-        notificador.NotificarError(error)
         next(error)
     }
 })
@@ -123,17 +116,14 @@ router.post("/albums",(req,res,next) => {
                 res.status(201)
                 res.json(unqFy.addAlbum(req.body))
                 let album = unqFy.getAlbumsByName(req.body.name)
-                notificador.NotificarElementoAgregado(album) 
             }
             else{
                 let error = new RelatedElementNotFound()
-                notificador.NotificarError(error)
                 next(error)
             }
         }
         else{
             let error = new ElementAlreadyExistsError()
-            notificador.NotificarError(error)
             next(error)
         }
     }
@@ -159,13 +149,11 @@ router.patch("/albums/:id",(req,res,next) => {
         if (unqFy.containsidAlbum(req.params.id)){
             res.status(200)
             res.json(unqFy.updateAlbum(req.params.id,req.body))
-            let album = unqFy.getAlbumById(req.params.id)
-            notificador.NotificarElementoAgregado(album)
+            let album = unqFy.getAlbumById(req.params.id) 
             
         }
         else{
             let error =new ElementNotFound()
-            notificador.NotificarError(error)
             next(error)
         }
     }
@@ -181,11 +169,9 @@ router.delete("/albums/:id",(req,res,next) => {
         unqFy.removeAlbum(req.params.id)
         res.send("Album Eliminado")
         let album = unqFy.getAlbumById(req.params.id)
-        notificador.NotificarElementoEliminado(album)
-    }
+        }
     else{
         let error = new ElementNotFound()
-        notificador.NotificarError(error)
         next(error)
     }
 })
@@ -214,7 +200,6 @@ router.get("/tracks/:id/lyrics",(req,res,next)=> {
     }
     else{
         let error =new ElementNotFound()
-        notificador.NotificarError(error)
         next(error)
     }
 })

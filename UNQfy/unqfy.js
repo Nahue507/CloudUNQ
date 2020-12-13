@@ -11,6 +11,14 @@ const IdManager = require("./IdManager");//Manager de ids
 const Usuario = require("./Usuario"); 
 const spotifyConnector = require('./spotifyConnector'); // Gestor de la conexión a Spotify
 const musicMatchConnector = require('./musicMatchConnector'); // Gestor de la conexión a MusicMatch
+let apiErrors = require("./ErrorsAPI")
+const NotificadorMod = require('./NotificadorLog')
+const ElementAlreadyExistsError = apiErrors.ElementAlreadyExistsError
+const ElementNotFound = apiErrors.ElementNotFound
+const RelatedElementNotFound = apiErrors.RelatedElementNotFound
+const InvalidJSON = apiErrors.InvalidJSON
+const Notificador = NotificadorMod.NotificadorLog
+const notificador = new Notificador()
 
 const NEWSLETTER_API_HOST = "http://172.20.0.10:8085";
 
@@ -73,11 +81,16 @@ class UNQfy {
         nuevoArtista.id = this.idManager.getIdArtista();
         this.artistas.push(nuevoArtista);
         console.log('Se agregó el artista ', nuevoArtista.name);
+        notificador.NotificarElementoAgregado(nuevoArtista)
         return nuevoArtista;
       }
       else
       {
+        let error = new ElementAlreadyExistsError();
         console.log("El artista ya existe")
+        notificador.NotificarError(error)
+        throw(error)
+        
       }
   
   }
@@ -88,8 +101,17 @@ class UNQfy {
   removeArtist(idArtist){
 
     const artistToRemove = this.getArtistById(idArtist);
-    artistToRemove.albums.forEach((album) => {this.removeAlbum(album.id)})
-    this.artistas = this.artistas.filter(artista => artista != artistToRemove);
+    if(artistToRemove != undefined){
+      artistToRemove.albums.forEach((album) => {this.removeAlbum(album.id)})
+      this.artistas = this.artistas.filter(artista => artista != artistToRemove);
+      notificador.NotificarElementoEliminado(artistToRemove)
+    }
+    else{
+      notificador.NotificarError(ElementNotFound)
+      console.log("No existe el artista")
+      throw(ElementNotFound)
+    }
+    
      //=====================NEWSLETTER POST==================================//
 
     const data = { artistId: artistToRemove, };
@@ -125,6 +147,7 @@ class UNQfy {
       nuevoAlbum.id = this.idManager.getIdAlbum();
       nuevoArtista.addAlbum(nuevoAlbum);
       this.albums.push(nuevoAlbum);
+      notificador.NotificarElementoAgregado(nuevoAlbum);
       console.log('Se agregó el álbum ', nuevoAlbum.name);
       //=====================NEWSLETTER POST==================================//
 
@@ -148,6 +171,8 @@ class UNQfy {
     else
     {
       console.log("No se completó la operación, controle que el álbum no haya sido ingresado anteriormente");
+      notificador.NotificarError(ElementNotFound)
+      throw(ElementNotFound);
     }
   
   }
@@ -158,10 +183,17 @@ class UNQfy {
   {
  
     const albumToRemove = this.getAlbumById(idAlbum);
-    this.artistas.forEach((artista)=>{artista.removeAlbum(idAlbum)})
-    albumToRemove.tracks.forEach((track) => {this.removeTrack(track.id)});
-    this.albums = this.albums.filter(album => album!=albumToRemove);
-    
+    if(albumToRemove != undefined){
+      this.artistas.forEach((artista)=>{artista.removeAlbum(idAlbum)})
+      albumToRemove.tracks.forEach((track) => {this.removeTrack(track.id)});
+      this.albums = this.albums.filter(album => album!=albumToRemove);
+      notificador.NotificarElementoEliminado(albumToRemove); 
+    }
+    else{
+      notificador.NotificarError(ElementNotFound)
+      throw(ElementNotFound)
+    }
+   
     
   }
 
@@ -180,7 +212,7 @@ class UNQfy {
       - una propiedad genres (lista de strings)
   */
     const album = this.getAlbumById(albumId);
-    if (!(this.trackExists(trackData.name)) )
+    if (album!= undefined && !(this.trackExists(trackData.name)) )
     {
       const track = new Track(trackData);
       track.id = this.idManager.getIdCancion();
@@ -188,11 +220,15 @@ class UNQfy {
       this.tracks.push(track);
       console.log('Se agregó el track ', track.name);
       this.save('data.json')
+      notificador.NotificarElementoAgregado(track);
       return track
     }
     else
     {
+     notificador.NotificarError(ElementAlreadyExistsError)
      console.log("No se completó la operación, controle que la canción no haya sido ingresada anteriormente");
+     throw(ElementAlreadyExistsError) 
+     
     }
     
   }
@@ -203,8 +239,18 @@ class UNQfy {
   {
 
     const trackToRemove = this.getTrackById(idTrack);
-    this.tracks = this.tracks.filter(track => track.id != idTrack);
-    this.playsLists.forEach(playlist => playlist.removeTrack(trackToRemove));     
+    if(trackToRemove != undefined){
+      this.tracks = this.tracks.filter(track => track.id != idTrack);
+      this.playsLists.forEach(playlist => playlist.removeTrack(trackToRemove));  
+      notificador.NotificarElementoEliminado(trackToRemove)
+
+    }
+    else{
+      console.log("El track no existia")
+      notificador.NotificarError(ElementNotFound)
+      throw(ElementNotFound)
+    }
+      
   }
 
   getArtistById(id) {
