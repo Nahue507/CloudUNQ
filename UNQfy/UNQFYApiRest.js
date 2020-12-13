@@ -80,6 +80,7 @@ router.delete("/artists/:id",(req,res,next) => {
         unqFy.removeArtist(req.params.id)
         let artist = unqFy.getArtistById(req.params.id)
         res.status(204) 
+        notificador.NotificarElementoEliminado(artist)
         res.send("Artista Eliminado")
 
     }

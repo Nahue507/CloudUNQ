@@ -12,7 +12,6 @@ let bodyParser = require('body-parser')
 let port = 8085;
 let router = express.Router();
 const suscriptionMap = new Map();
-const senderEmail = "j.giulianetti@gmail.com"
 
 app.use(bodyParser.urlencoded({extended : true}))
 app.use(bodyParser.json())
@@ -100,7 +99,7 @@ router.post("/api/unsubscribe",(req,res,next) => {
 
 router.post("/api/notify",(req,res,next) => {
 
-    if (req.body.artistId && req.body.subject && req.body.message ){  /*Los argumentos están correctos*/
+    if (req.body.artistId && req.body.subject && req.body.message ){  
          
             res.status(200);
             
@@ -119,7 +118,7 @@ router.post("/api/notify",(req,res,next) => {
 })
 
 
-router.get("/api/subscriptions:artistId",(req,res,next) =>  {
+router.post("/api/subscriptions/:artistId",(req,res,next) =>  {
     if (artistExists(req.body.artistId )) {
         
         res.status(200);
@@ -133,13 +132,17 @@ router.get("/api/subscriptions:artistId",(req,res,next) =>  {
    
 )
 
+
 router.get("/api/isAlive",(req,res,next) =>  {
-    
-    res.status(200)
-    res.json("OK")
 
-
+            
+        res.status(200);
+        res.json({
+            "Status" : "ok",            
+        })   
+           
 })
+
 
 
 router.delete("/api/subscriptions",(req,res,next) => {

@@ -20,12 +20,13 @@ RUN ["npm", "install"]
 EXPOSE 8083 
 
 # Copia los fuentes dentro del container
+
+
 COPY ErrorsAPI.js /home/node/logger/
 COPY loggingApiRest.js /home/node/logger/
 COPY logService.js /home/node/logger/
 COPY package.json /home/node/logger/
 COPY package-lock.json /home/node/logger/
-
 
 # Le da permisos al usuario node para escribir en /home/node/my_node_app
 # Como comentario, notar que el comando RUN nos permite ejecutar culquier comando bash valido.
