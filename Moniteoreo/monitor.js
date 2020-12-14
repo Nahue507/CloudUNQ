@@ -9,6 +9,11 @@ const rp = require('request-promise');
 app.use(bodyParser.urlencoded({extended : true}))
 app.use(bodyParser.json())
 app.use('/monitor', router);
+//End points
+const urlDiscord = "https://discord.com/api/webhooks/783468497522262017/wUugIlByGRm7blxJbw044et07Jvx7Md18UP2VDCar3BIMUGWdAddNy7-iZhlfY3Aoblk";
+const unqFyVivo= 'http://172.20.0.20:8080/api/isAlive';
+const loggerVivo='http://172.20.0.30:8083/logging/isAlive';
+const newsletterVivo='http://172.20.0.10:8085/api/isAlive';
 
 let monitoreoActivo = true;
 
@@ -40,13 +45,9 @@ function incidentTime(){
 
 
 
-const notificarPorDiscord = function(service, status) { 
-    
-    const url = "https://discord.com/api/webhooks/783468497522262017/wUugIlByGRm7blxJbw044et07Jvx7Md18UP2VDCar3BIMUGWdAddNy7-iZhlfY3Aoblk";
-   
-
+const notificarPorDiscord = function(service, status) {    
       axios
-      .post(url, {
+      .post(urlDiscord, {
         "content": `[${incidentTime()}] ${service} ${status}`})
       .then(res => {
         console.log("Notificación enviada a discord")
@@ -56,9 +57,9 @@ const notificarPorDiscord = function(service, status) {
 
 router.get("/status", (req,res,next) => { 
     res.status(200);
-    poll("UNQfy", 'http://172.20.0.20:8080/api/isAlive', currentunqNotification, priorunqNotification);
-    poll("Logger", 'http://172.20.0.30:8083/logging/isAlive', currentloggerNotification, priorloggerNotification);
-    poll("Newsletter", 'http://172.20.0.10:8085/api/isAlive', currentnewsletterNotification, priornewsletterNotification);
+    poll("UNQfy",unqFyVivo , currentunqNotification, priorunqNotification);
+    poll("Logger", loggerVivo, currentloggerNotification, priorloggerNotification);
+    poll("Newsletter",newsletterVivo , currentnewsletterNotification, priornewsletterNotification);
 })
 
 
@@ -102,12 +103,12 @@ function poll(serviceName, url, currentNotification, priorNotification) {
 
 const checkAllStatus = function(){
     //Strings Ojo.
-    if (monitoreoActivo){
+    while(monitoreoActivo){
         console.log("Polling")
         
-        poll("UNQfy", 'http://172.20.0.20:8080/api/isAlive', currentunqNotification, priorunqNotification);
-        poll("Logger", 'http://172.20.0.30:8083/logging/isAlive', currentloggerNotification, priorloggerNotification);
-        poll("Newsletter", 'http://172.20.0.10:8085/api/isAlive', currentnewsletterNotification, priornewsletterNotification);
+        poll("UNQfy", unqFyVivo, currentunqNotification, priorunqNotification);
+        poll("Logger", loggerVivo, currentloggerNotification, priorloggerNotification);
+        poll("Newsletter", newsletterVivo, currentnewsletterNotification, priornewsletterNotification);
     }
 }
 
