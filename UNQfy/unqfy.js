@@ -20,7 +20,7 @@ const InvalidJSON = apiErrors.InvalidJSON
 const Notificador = NotificadorMod.NotificadorLog
 const notificador = new Notificador()
 
-const NEWSLETTER_API_HOST = "http://172.20.0.10:8085";
+
 
 
 
@@ -81,14 +81,14 @@ class UNQfy {
         nuevoArtista.id = this.idManager.getIdArtista();
         this.artistas.push(nuevoArtista);
         console.log('Se agregó el artista ', nuevoArtista.name);
-        notificador.NotificarElementoAgregado(nuevoArtista)
+        notificador.notificarElementoAgregado(nuevoArtista)
         return nuevoArtista;
       }
       else
       {
         let error = new ElementAlreadyExistsError();
         console.log("El artista ya existe")
-        notificador.NotificarError(error)
+        notificador.notificarError(error)
         throw(error)
         
       }
@@ -104,23 +104,17 @@ class UNQfy {
     if(artistToRemove != undefined){
       artistToRemove.albums.forEach((album) => {this.removeAlbum(album.id)})
       this.artistas = this.artistas.filter(artista => artista != artistToRemove);
-      notificador.NotificarElementoEliminado(artistToRemove)
+      notificador.notificarElementoEliminado(artistToRemove)
     }
     else{
-      notificador.NotificarError(ElementNotFound)
+      notificador.notificarError(ElementNotFound)
       console.log("No existe el artista")
       throw(ElementNotFound)
     }
     
      //=====================NEWSLETTER POST==================================//
 
-    const data = { artistId: artistToRemove, };
-    axios
-    .delete(`${NEWSLETTER_API_HOST}/api/subscriptions`, data)
-    .then(response => {
-      
-    })
-    .catch(error => console.error(error));
+    notificador.notificarArtistaEliminado(artistToRemove)
     //=====================================================================//
     
     
@@ -147,22 +141,11 @@ class UNQfy {
       nuevoAlbum.id = this.idManager.getIdAlbum();
       nuevoArtista.addAlbum(nuevoAlbum);
       this.albums.push(nuevoAlbum);
-      notificador.NotificarElementoAgregado(nuevoAlbum);
+      notificador.notificarElementoAgregado(nuevoAlbum);
       console.log('Se agregó el álbum ', nuevoAlbum.name);
       //=====================NEWSLETTER POST==================================//
 
-      const data = {
-        artistId: nuevoArtista.id,
-        subject: `Nuevo Album para artsta, ${nuevoArtista.name}` ,
-        message: `Se ha agregado el album ${nuevoAlbum.name} al artista ${nuevoArtista.name}`
-      };
-
-      axios
-      .post(`${NEWSLETTER_API_HOST}/api/notify`, data)
-      .then(response => {
-        console.log("Notificación de nuevo álbum enviada")
-      })
-      .catch(error => console.error(error));
+      notificador.notificarAlbumAgregado(nuevoArtista,nuevoAlbum)
       //=====================================================================//
 
 
@@ -171,7 +154,7 @@ class UNQfy {
     else
     {
       console.log("No se completó la operación, controle que el álbum no haya sido ingresado anteriormente");
-      notificador.NotificarError(ElementNotFound)
+      notificador.notificarError(ElementNotFound)
       throw(ElementNotFound);
     }
   
@@ -187,10 +170,10 @@ class UNQfy {
       this.artistas.forEach((artista)=>{artista.removeAlbum(idAlbum)})
       albumToRemove.tracks.forEach((track) => {this.removeTrack(track.id)});
       this.albums = this.albums.filter(album => album!=albumToRemove);
-      notificador.NotificarElementoEliminado(albumToRemove); 
+      notificador.notificarElementoEliminado(albumToRemove); 
     }
     else{
-      notificador.NotificarError(ElementNotFound)
+      notificador.notificarError(ElementNotFound)
       throw(ElementNotFound)
     }
    
@@ -220,12 +203,12 @@ class UNQfy {
       this.tracks.push(track);
       console.log('Se agregó el track ', track.name);
       this.save('data.json')
-      notificador.NotificarElementoAgregado(track);
+      notificador.notificarElementoAgregado(track);
       return track
     }
     else
     {
-     notificador.NotificarError(ElementAlreadyExistsError)
+     notificador.notificarError(ElementAlreadyExistsError)
      console.log("No se completó la operación, controle que la canción no haya sido ingresada anteriormente");
      throw(ElementAlreadyExistsError) 
      
@@ -242,12 +225,12 @@ class UNQfy {
     if(trackToRemove != undefined){
       this.tracks = this.tracks.filter(track => track.id != idTrack);
       this.playsLists.forEach(playlist => playlist.removeTrack(trackToRemove));  
-      notificador.NotificarElementoEliminado(trackToRemove)
+      notificador.notificarElementoEliminado(trackToRemove)
 
     }
     else{
       console.log("El track no existia")
-      notificador.NotificarError(ElementNotFound)
+      notificador.notificarError(ElementNotFound)
       throw(ElementNotFound)
     }
       

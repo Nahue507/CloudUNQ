@@ -41,6 +41,12 @@ function incidentTime(){
     let seconds = date_ob.getSeconds();
     return (year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds)
 }
+const check =function(){
+    poll("UNQfy", unqFyVivo, currentunqNotification, priorunqNotification);
+    poll("Logger", loggerVivo, currentloggerNotification, priorloggerNotification);
+    poll("Newsletter", newsletterVivo, currentnewsletterNotification, priornewsletterNotification);
+}
+
 
 
 
@@ -57,9 +63,7 @@ const notificarPorDiscord = function(service, status) {
 
 router.get("/status", (req,res,next) => { 
     res.status(200);
-    poll("UNQfy",unqFyVivo , currentunqNotification, priorunqNotification);
-    poll("Logger", loggerVivo, currentloggerNotification, priorloggerNotification);
-    poll("Newsletter",newsletterVivo , currentnewsletterNotification, priornewsletterNotification);
+    check()
 })
 
 
@@ -103,12 +107,10 @@ function poll(serviceName, url, currentNotification, priorNotification) {
 
 const checkAllStatus = function(){
     //Strings Ojo.
-    while(monitoreoActivo){
+    if(monitoreoActivo){
         console.log("Polling")
-        
-        poll("UNQfy", unqFyVivo, currentunqNotification, priorunqNotification);
-        poll("Logger", loggerVivo, currentloggerNotification, priorloggerNotification);
-        poll("Newsletter", newsletterVivo, currentnewsletterNotification, priornewsletterNotification);
+        check()
+       
     }
 }
 
