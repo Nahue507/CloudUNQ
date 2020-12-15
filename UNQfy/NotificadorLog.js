@@ -30,7 +30,7 @@ class NotificadorLog {
     //===========================================================================================
     //                                Newsletter
     //===========================================================================================
-    notificarArtistaEliminado(artista){
+    notificarArtistaEliminado(artistToRemove){
      const data = { artistId: artistToRemove, };
     axios
     .delete(`${NEWSLETTER_API_HOST}/api/subscriptions`, data)
