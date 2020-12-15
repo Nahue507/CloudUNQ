@@ -27,7 +27,9 @@ class NotificadorLog {
     eliminarSuscripcion(suscriptor){
         this.suscriptores = this.suscriptores.filter(elem => elem == suscriptor)
     }
-    //Newsletter
+    //===========================================================================================
+    //                                Newsletter
+    //===========================================================================================
     notificarArtistaEliminado(artista){
      const data = { artistId: artistToRemove, };
     axios

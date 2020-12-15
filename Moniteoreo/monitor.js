@@ -110,7 +110,6 @@ const checkAllStatus = function(){
     if(monitoreoActivo){
         console.log("Polling")
         check()
-       
     }
 }
 
